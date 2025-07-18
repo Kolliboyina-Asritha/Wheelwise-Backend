@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f7fa;
+    }
+    nav.navbar {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      border-bottom: 1px solid #ddd;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #111;
+    }
+
+    .logo span {
+      color: #e60023;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .nav-links li {
+      position: relative;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      padding: 8px 12px;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #1a73e8;
+    }
+
+    /* Dropdown */
+    .dropdown,
+    .submenu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #fff;
+      min-width: 180px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      display: none;
+      flex-direction: column;
+      border-radius: 5px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .dropdown a,
+    .submenu a {
+      padding: 10px 15px;
+      white-space: nowrap;
+      font-weight: normal;
+      color: #333;
+    }
+
+    .dropdown a:hover,
+    .submenu a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .has-dropdown:hover > .dropdown {
+      display: flex;
+    }
+
+    .has-submenu {
+      position: relative;
+    }
+
+    .has-submenu:hover > .submenu {
+      display: flex;
+      left: 100%;
+      top: 0;
+    }
+
+    .nav-icons {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-icons i {
+      font-size: 18px;
+      color: #333;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .nav-icons i:hover {
+      color: #1a73e8;
+    }
+
+    .add-cart-btn {
+      background-color: #1a73e8;
+      color: white;
+      padding: 7px 14px;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+      nav.navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+   .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .footer-box {
+      flex: 1 1 220px;
+    }
+
+    .footer-box h4 {
+      border-bottom: 2px solid white;
+      display: inline-block;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+
+    .footer-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-box ul li {
+      margin-bottom: 8px;
+    }
+
+    .footer-box ul li a {
+      color: #ddd;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-box ul li a:hover {
+      color: #fff;
+    }
+
+    .newsletter-input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 10px;
+    }
+
+    .subscribe-btn {
+      background: #e60023;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .subscribe-btn:hover {
+      background: #c2001d;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #ccc;
+      margin-top: 30px;
+      padding-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-socials {
+      margin-top: 10px;
+    }
+
+    .footer-socials a {
+      margin: 0 5px;
+      display: inline-block;
+    }
+
+    .footer-socials img {
+      width: 24px;
+      height: 24px;
+    }
+    @media screen and (max-width: 1024px) {
+  .nav-container {
+    gap: 20px;
+  }
+
+  .nav-links {
+    gap: 15px;
+  }
+
+  .card img {
+    height: 120px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  nav.navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px;
+  }
+
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 15px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .nav-icons {
+    align-self: flex-end;
+  }
+
+  .grid-list {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    padding: 0 10px;
+  }
+
+  .card {
+    padding: 12px;
+  }
+
+  .card img {
+    height: 100px;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .footer-box {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  .footer-bottom {
+    font-size: 13px;
+    padding: 15px 10px;
+  }
+
+  .footer-socials a {
+    margin: 0 8px;
+  }
+
+  .subscribe-btn {
+    width: 100%;
+  }
+}
+.wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
+
+    .checkout-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .checkout-container h2 {
+      text-align: center;
+      color: #1a73e8;
+      margin-bottom: 30px;
+    }
+    .checkout-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: space-between;
+    }
+    .buyer-details, .cart-summary {
+      flex: 1 1 45%;
+      background: #ffffff;
+      border: 1px solid #e2e2e2;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 12px 0;
+    }
+    .cart-item img {
+      width: 90px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .cart-item h4 {
+      margin: 0;
+      font-size: 16px;
+      color: #222;
+    }
+    .cart-item p {
+      margin: 2px 0;
+      font-size: 14px;
+      color: #555;
+    }
+    .checkout-btn {
+      margin-top: 15px;
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .checkout-btn:hover {
+      background-color: #0f5bd1;
+    }
+    @media (max-width: 768px) {
+      .checkout-grid {
+        flex-direction: column;
+      }
+    }
+    .buyer-details form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .buyer-details input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+      width: 100%;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    .quantity-input {
+      padding: 4px;
+      width: 60px;
+      margin-left: 6px;
+    }
+    #shipping-method, #coupon-code {
+      padding: 8px;
+      border: 1px solid #aaa;
+      border-radius: 6px;
+      margin-top: 5px;
+    }
+    #price-breakdown p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+    <span>Wheel</span>Wise
+    </div>
+
+    <div class="nav-container">
+      <ul class="nav-links">
+        <li><a href="homepage.html">Home</a></li>
+        <li><a href="homepage.html#about">About</a></li>
+
+        <!-- Pages Dropdown -->
+        
+
+        <li><a href="homepage.html#brands">Shop</a></li>
+        
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <div class="nav-icons">
+        
+        <a href="#" onclick="goToCart(event)"><i class="fas fa-shopping-cart"></i></a>
+        
+    
+      </div>
+    </div>
+  </nav>
+  
+  <div id="mainContent"></div>
+ 
+  <footer style="background: linear-gradient(to right, #0052a0, #003170); color: white; padding: 40px 20px 20px;">
+  <div class="footer-container">
+    <!-- Column 1: Company Info -->
+    <div class="footer-box">
+      <h3 style="margin-top: 0;">OnlineShop</h3>
+      <p>"Experience the pinnacle of automotive engineering with our meticulously crafted vehicles."</p>
+      <p>📞 +2 123 564 7898</p>
+      <p>📍 25/B Millford Road, New York</p>
+      <p>✉️ info@gmail.com</p>
+    </div>
+
+    <!-- Column 2: Quick Links -->
+    <div class="footer-box">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="homepage.html#about">About Us</a></li>
+        <li><a href="#">Update News</a></li>
+        <li><a href="#">Testimonials</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+       
+      </ul>
+    </div>
+
+    <!-- Column 3: Support -->
+    <div class="footer-box">
+      <h4>Support Center</h4>
+      <ul>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Affiliates</a></li>
+        <li><a href="#">Booking</a></li>
+        <li><a href="#">Sell Vehicles</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="#">Sitemap</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 4: Newsletter -->
+    <div class="footer-box">
+      <h4>Newsletter</h4>
+      <p>"Experience the pinnacle of automotive engineering with our meticulously crafted vehicles."</p>
+      <input type="email" placeholder="Your Email" class="newsletter-input" />
+      <button class="subscribe-btn">Subscribe Now →</button>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© Copyright 2025 OnlineShop. All Rights Reserved.</p>
+    <div class="footer-socials">
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733547.psng" alt="Facebook"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733558.png" alt="Twitter"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733561.png" alt="LinkedIn"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/2111/2111710.png" alt="YouTube"></a>
+    </div>
+  </div>
+</footer>
+  <script>
+    let accessToken = '';
+    let username = '';
+    let discountFactor = 0;
+    
+ const BASE_URL = 'https://your-backend-name.onrender.com';
+    function parseJwt(token) {
+      try {
+        const base64Payload = token.split('.')[1];
+        const decodedPayload = atob(base64Payload);
+        return JSON.parse(decodedPayload);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function refreshAccessToken() {
+      try {
+        const res = await fetch(`${BASE_URL}/refresh`, { method: 'POST', credentials: 'include' });
+        if (res.ok) {
+          const data = await res.json();
+          accessToken = data.accessToken;
+          const decoded = parseJwt(accessToken);
+          username = decoded?.UserInfo?.email || '';
+        }
+      } catch (err) {
+        console.error("Token error:", err);
+      }
+    }
+
+    function collectOrderData() {
+      const form = document.getElementById('buyerInfoForm');
+      const formData = new FormData(form);
+      const buyerDetails = Object.fromEntries(formData.entries());
+
+      const qtyInputs = document.querySelectorAll('.quantity-input');
+      const cartItems = [...qtyInputs].map(input => {
+        const card = input.closest('.cart-item');
+        const title = card.querySelector('h4').innerText;
+        const price = parseFloat(input.dataset.price);
+        const quantity = parseInt(input.value);
+        const imageUrl = card.querySelector('img').src;
+        const productId = card.getAttribute('data-product-id');
+        return { productId, title, price, quantity, imageUrl };
+      });
+
+      const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      const itemTax = subtotal * 0.1;
+      const shipping = parseFloat(document.getElementById('shipping-method').value);
+      const deliveryTax = shipping * 0.05;
+      const discountAmt = subtotal * Math.abs(discountFactor);
+      const totalAmount = subtotal + itemTax + shipping + deliveryTax - discountAmt;
+
+      return {
+        buyer: buyerDetails,
+        items: cartItems,
+        shippingMethod: document.getElementById('shipping-method').selectedOptions[0].text,
+        totalAmount: Math.round(totalAmount)
+      };
+    }
+
+    async function payWithCOD() {
+      const { buyer, items, shippingMethod, totalAmount } = collectOrderData();
+      const res = await fetch(`${BASE_URL}/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + accessToken
+        },
+        body: JSON.stringify({
+          buyer,
+          items,
+          shippingMethod,
+          paymentMode: "Cash on Delivery",
+          totalAmount
+        })
+      });
+      if (res.ok) {
+        alert("📦 COD Order placed successfully!");
+        window.location.href = 'ordersuccess.html';
+      } else {
+        const err = await res.json();
+        alert(err.message || "Order failed.");
+      }
+    }
+
+    async function payWithRazorpay() {
+      const { buyer, items, shippingMethod, totalAmount } = collectOrderData();
+
+      const orderRes = await fetch(`${BASE_URL}/payments/create-order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: totalAmount * 100 })
+      });
+      const orderData = await orderRes.json();
+
+      const options = {
+        key: "rzp_test_DvKzDxGPvFHujQ",
+        amount: orderData.amount,
+        currency: "INR",
+        name: "Second-Hand Vehicle",
+        description: "Order Payment",
+        order_id: orderData.id,
+        handler: async function (response) {
+          const res = await fetch(`${BASE_URL}/orders`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + accessToken
+            },
+            body: JSON.stringify({
+              buyer,
+              items,
+              shippingMethod,
+              paymentMode: "Online (Razorpay)",
+              paymentId: response.razorpay_payment_id,
+              totalAmount
+            })
+          });
+          if (res.ok) {
+            alert("✅ Razorpay Payment Success!");
+            window.location.href = 'ordersuccess.html';
+          } else {
+            alert("Order failed after payment");
+          }
+        },
+        prefill: {
+          name: buyer.fullName,
+          email: buyer.email,
+          contact: buyer.phone
+        },
+        theme: { color: "#3399cc" }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+    }
+
+    function applyCoupon() {
+      const code = document.getElementById('coupon-code').value.trim();
+      if (code === 'SAVE10') {
+        alert("Coupon applied: 10% off");
+        discountFactor = -0.1;
+      } else {
+        alert("Invalid coupon");
+        discountFactor = 0;
+      }
+      updatePriceSummary(discountFactor);
+    }
+
+    function updatePriceSummary(discount = 0) {
+      const qtyInputs = document.querySelectorAll('.quantity-input');
+      let subtotal = 0;
+      qtyInputs.forEach(input => {
+        const price = parseFloat(input.dataset.price);
+        const quantity = parseInt(input.value) || 1;
+        subtotal += price * quantity;
+      });
+      const itemTax = subtotal * 0.1;
+      const shipping = parseFloat(document.getElementById('shipping-method').value);
+      const deliveryTax = shipping * 0.05;
+      const discountAmt = subtotal * Math.abs(discount);
+      const total = subtotal + itemTax + shipping + deliveryTax - discountAmt;
+      document.getElementById('price-breakdown').innerHTML = `
+        <p>Subtotal: ₹${subtotal.toFixed(2)}</p>
+        <p>Tax on Items (10%): ₹${itemTax.toFixed(2)}</p>
+        <p>Shipping: ₹${shipping.toFixed(2)}</p>
+        <p>Tax on Delivery (5%): ₹${deliveryTax.toFixed(2)}</p>
+        ${discount ? `<p style="color:green;">Discount: -₹${discountAmt.toFixed(2)}</p>` : ""}
+        <hr />
+        <strong>Total: ₹${total.toFixed(2)}</strong>
+      `;
+    }
+
+    async function loadCheckoutPage() {
+      const cartRes = await fetch(`${BASE_URL}/cart`, {
+        headers: { 'Authorization': 'Bearer ' + accessToken }
+      });
+      const cartItems = await cartRes.json();
+
+      if (!cartItems.length) {
+        document.getElementById('mainContent').innerHTML = `<div class="checkout-container"><h2>Your Cart is Empty</h2></div>`;
+        return;
+      }
+
+      document.getElementById('mainContent').innerHTML = `
+        <div class="checkout-container">
+          <h2>Checkout</h2>
+          <div class="checkout-grid">
+            <div class="buyer-details">
+              <h3>Buyer Details</h3>
+              <form id="buyerInfoForm">
+                <input name="fullName" placeholder="Full Name" required />
+                <input name="email" type="email" placeholder="Email" required />
+                <input name="phone" placeholder="Mobile Number" required />
+                <input name="address" placeholder="Billing Address" required />
+              </form>
+            </div>
+            <div class="cart-summary">
+              <h3>Items in Cart</h3>
+              ${cartItems.map(item => `
+                <div class="cart-item" data-product-id="${item.vehicleId}">
+                  <img src="${item.imageUrl}" alt="${item.title}" />
+                  <div>
+                    <h4>${item.title}</h4>
+                    <p>₹${item.price}</p>
+                    <label>Qty: <input type="number" class="quantity-input" data-price="${item.price}" value="1" min="1" /></label>
+                  </div>
+                </div>
+              `).join('')}
+              <hr />
+              <label>Shipping Method:
+                <select id="shipping-method">
+                  <option value="0">Free Shipping - ₹0</option>
+                  <option value="50">Standard - ₹50</option>
+                  <option value="100">Express - ₹100</option>
+                </select>
+              </label>
+              <label>Coupon Code:
+                <input type="text" id="coupon-code" placeholder="Enter code" />
+                <button onclick="applyCoupon()" class="checkout-btn" style="width:auto;margin-top:6px; padding: 8px 8.5px;">Apply</button>
+              </label>
+              <hr />
+              <div class="subtotal" id="price-breakdown"></div>
+              <button class="checkout-btn" onclick="payWithCOD()">Cash on Delivery</button>
+              <button class="checkout-btn" onclick="payWithRazorpay()">Pay via Razorpay</button>
+            </div>
+          </div>
+        </div>`;
+
+      document.querySelectorAll('.quantity-input, #shipping-method').forEach(el =>
+        el.addEventListener('input', () => updatePriceSummary(discountFactor))
+      );
+
+      updatePriceSummary(discountFactor);
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      await refreshAccessToken();
+      loadCheckoutPage();
+    });
+  </script>
+</body>
+</html>

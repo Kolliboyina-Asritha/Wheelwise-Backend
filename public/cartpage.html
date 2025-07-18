@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Cart</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+  body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 20px;
+}
+
+.cart-container {
+  max-width: 900px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.cart-items {
+  margin-top: 20px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+.cart-item img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.cart-item-details {
+  flex-grow: 1;
+}
+
+.cart-item h3 {
+  margin: 0;
+}
+
+.remove-btn {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cart-summary {
+  margin-top: 30px;
+  text-align: right;
+}
+
+#checkout-btn {
+  background: #2ecc71;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+nav.navbar {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      border-bottom: 1px solid #ddd;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #111;
+    }
+
+    .logo span {
+      color: #e60023;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .nav-links li {
+      position: relative;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      padding: 8px 12px;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #1a73e8;
+    }
+     .nav-icons {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-icons i {
+      font-size: 18px;
+      color: #333;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .nav-icons i:hover {
+      color: #1a73e8;
+    }
+     @media screen and (max-width: 768px) {
+      nav.navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+     .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .footer-box {
+      flex: 1 1 220px;
+    }
+
+    .footer-box h4 {
+      border-bottom: 2px solid white;
+      display: inline-block;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+
+    .footer-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-box ul li {
+      margin-bottom: 8px;
+    }
+
+    .footer-box ul li a {
+      color: #ddd;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-box ul li a:hover {
+      color: #fff;
+    }
+
+    .newsletter-input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 10px;
+    }
+
+    .subscribe-btn {
+      background: #e60023;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .subscribe-btn:hover {
+      background: #c2001d;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #ccc;
+      margin-top: 30px;
+      padding-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-socials {
+      margin-top: 10px;
+    }
+
+    .footer-socials a {
+      margin: 0 5px;
+      display: inline-block;
+    }
+
+    .footer-socials img {
+      width: 24px;
+      height: 24px;
+    }
+    @media screen and (max-width: 1024px) {
+  .nav-container {
+    gap: 20px;
+  }
+
+  .nav-links {
+    gap: 15px;
+  }
+
+  .card img {
+    height: 120px;
+  }
+}
+@media screen and (max-width: 768px) {
+  nav.navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px;
+  }
+
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 15px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .nav-icons {
+    align-self: flex-end;
+  }
+
+  .grid-list {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    padding: 0 10px;
+  }
+
+  .card {
+    padding: 12px;
+  }
+
+  .card img {
+    height: 100px;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .footer-box {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  .footer-bottom {
+    font-size: 13px;
+    padding: 15px 10px;
+  }
+
+  .footer-socials a {
+    margin: 0 8px;
+  }
+
+  .subscribe-btn {
+    width: 100%;
+  }
+}
+
+</style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <span>Wheel</span>Wise
+    </div>
+
+    <div class="nav-container">
+      <ul class="nav-links">
+        <li><a href="homepage.html">Home</a></li>
+        <li><a href="homepage.html#about">About</a></li>
+
+        <!-- Pages Dropdown -->
+        
+
+        <li><a href="homepage.html#brands">Shop</a></li>
+        
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <div class="nav-icons">
+        
+        
+    
+      </div>
+    </div>
+  </nav>
+  <br>
+  <div class="cart-container">
+    <h1>Your Cart</h1>
+    <div id="cart-items" class="cart-items">
+      <!-- Dynamic cart items go here -->
+    </div>
+
+    <div class="cart-summary">
+      <h2>Total: ₹<span id="total-price">0</span></h2>
+      <button id="checkout-btn">Proceed to Checkout</button>
+    </div>
+  </div>
+<br>
+<br>
+<br>
+<footer style="background: linear-gradient(to right, #0052a0, #003170); color: white; padding: 40px 20px 20px;">
+  <div class="footer-container">
+    <!-- Column 1: Company Info -->
+    <div class="footer-box">
+      <h3 style="margin-top: 0;">OnlineShop</h3>
+      <p>"Experience the pinnacle of automotive engineering with our meticulously crafted vehicles."</p>
+      <p>📞 +2 123 564 7898</p>
+      <p>📍 25/B Millford Road, New York</p>
+      <p>✉️ info@gmail.com</p>
+    </div>
+
+    <!-- Column 2: Quick Links -->
+    <div class="footer-box">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="homepage.html#about">About Us</a></li>
+        <li><a href="#">Update News</a></li>
+        <li><a href="#">Testimonials</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+       
+      </ul>
+    </div>
+
+    <!-- Column 3: Support -->
+    <div class="footer-box">
+      <h4>Support Center</h4>
+      <ul>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Affiliates</a></li>
+        <li><a href="#">Booking</a></li>
+        <li><a href="#">Sell Vehicles</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="#">Sitemap</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 4: Newsletter -->
+    <div class="footer-box">
+      <h4>Newsletter</h4>
+      <p>"Experience the pinnacle of automotive engineering with our meticulously crafted vehicles."</p>
+      <input type="email" placeholder="Your Email" class="newsletter-input" />
+      <button class="subscribe-btn">Subscribe Now →</button>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© Copyright 2025 OnlineShop. All Rights Reserved.</p>
+    <div class="footer-socials">
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733547.png" alt="Facebook"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733558.png" alt="Twitter"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733561.png" alt="LinkedIn"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/2111/2111710.png" alt="YouTube"></a>
+    </div>
+  </div>
+</footer>
+<script>
+
+let accessToken = ''; // initially empty
+  const BASE_URL = 'https://your-backend-name.onrender.com';
+
+function parseJwt(token) {
+  try {
+    const base64Payload = token.split('.')[1];
+    const decodedPayload = atob(base64Payload);
+    return JSON.parse(decodedPayload);
+  } catch (e) {
+    return null;
+  }
+}
+
+async function refreshAccessToken() {
+  try {
+    const res = await fetch(`${BASE_URL}/refresh`, {
+      method: 'GET',
+      credentials: 'include'
+    });
+
+    if (!res.ok) throw new Error('Refresh failed');
+
+    const data = await res.json();
+    accessToken = data.accessToken;
+    return true;
+  } catch (err) {
+    console.error('Error refreshing token:', err);
+    return false;
+  }
+}
+
+async function isAuthenticated() {
+  if (!accessToken) return await refreshAccessToken();
+
+  const payload = parseJwt(accessToken);
+  const now = Math.floor(Date.now() / 1000);
+
+  if (!payload?.exp || payload.exp < now) {
+    return await refreshAccessToken();
+  }
+
+  return true;
+}
+
+async function fetchCartItems() {
+  try {
+    const res = await fetch(`${BASE_URL}/cart`, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    });
+
+    if (res.status === 401 || res.status === 403) {
+      const refreshed = await refreshAccessToken();
+      if (refreshed) return fetchCartItems();
+      alert('Please login first.');
+      return window.location.href = '/login.html';
+    }
+
+    const cartItems = await res.json();
+    displayCartItems(cartItems);
+  } catch (err) {
+    console.error('Error fetching cart items:', err);
+  }
+}
+
+function displayCartItems(cartItems) {
+  const container = document.getElementById('cart-items');
+  container.innerHTML = '';
+  let total = 0;
+
+  cartItems.forEach(item => {
+    total += item.price;
+
+    const itemDiv = document.createElement('div');
+    itemDiv.className = 'cart-item';
+    itemDiv.setAttribute('data-id', item._id);
+
+    itemDiv.innerHTML = `
+      <img src="${item.imageUrl}" alt="${item.title}" />
+      <div class="cart-item-details">
+        <h3>${item.title}</h3>
+        <p>₹${item.price}</p>
+      </div>
+      <button class="remove-btn" onclick="removeFromCart('${item._id}')">Remove</button>
+    `;
+
+    // 👇 Add click handler for full card view
+    itemDiv.addEventListener('click', (e) => {
+      // prevent button click from triggering this
+      if (e.target.classList.contains('remove-btn')) return;
+      openFullVehicleCard(item.vehicleId); 
+    });
+
+    container.appendChild(itemDiv);
+  });
+
+  document.getElementById('total-price').textContent = total.toLocaleString();
+}
+
+async function removeFromCart(id) {
+  try {
+    await fetch(`${BASE_URL}/cart/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    });
+    fetchCartItems();
+  } catch (err) {
+    console.error('Error removing item:', err);
+  }
+}
+
+// 🆕 View full card when cart item is clicked
+async function openFullVehicleCard(vehicleId) {
+  try {
+    const res = await fetch(`${BASE_URL}/vehicles/${vehicleId}`);
+    if (!res.ok) throw new Error('Vehicle not found');
+
+    const vehicle = await res.json();
+
+    const modal = document.createElement('div');
+    modal.style = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      z-index: 1000;
+      max-width: 500px;
+      width: 100%;
+    `;
+
+    modal.innerHTML = `
+      <h2>${vehicle.title}</h2>
+      <img src="${vehicle.imageUrl}" style="width: 100%; height: auto; border-radius: 8px;" />
+      <p><strong>Brand:</strong> ${vehicle.brand?.name || vehicle.brand}</p>
+      <p><strong>Model:</strong> ${vehicle.model}</p>
+      <p><strong>Year:</strong> ${vehicle.year}</p>
+      <p><strong>Mileage:</strong> ${vehicle.mileage}</p>
+      <p><strong>Body Type:</strong> ${vehicle.BodyType}</p>
+      <p><strong>Condition:</strong> ${vehicle.condition}</p>
+      <p><strong>Price:</strong> ₹${vehicle.price}</p>
+      <button onclick="this.parentElement.remove()" style="margin-top: 10px; padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 6px;">Close</button>
+    `;
+
+    document.body.appendChild(modal);
+  } catch (err) {
+    console.error('Error loading vehicle:', err);
+  }
+}
+
+document.getElementById('checkout-btn').addEventListener('click', () => {
+   window.location.href = 'checkout.html';
+});
+
+window.addEventListener('DOMContentLoaded', async () => {
+  const isAuth = await isAuthenticated();
+  if (!isAuth) {
+    alert("Please login first.");
+    window.location.href = '/login.html';
+  } else {
+    fetchCartItems();
+  }
+});
+</script>
+
+
+</body>
+</html>

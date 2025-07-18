@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Seller Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background: #1a73e8;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav h2 {
+      margin: 0;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    section {
+      margin: 2rem auto;
+      max-width: 1000px;
+      background: white;
+      padding: 1.5rem 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h3 {
+      margin-top: 0;
+      color: #1a73e8;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    input, textarea, select {
+      padding: 0.8rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
+      background-color: #1a73e8;
+      color: white;
+      padding: 0.8rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #155bb5;
+    }
+
+    .grid-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .card {
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .card img {
+      width: 100%;
+      max-height: 150px;
+      object-fit: contain;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+    }
+
+    .card h4 {
+      margin: 0.5rem 0;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #444;
+    }
+    .card button {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 5px 5px 0 5px;
+  transition: background-color 0.3s ease;
+}
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.modal-content button {
+  margin: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#confirmYes {
+  background: #dc3545;
+  color: white;
+}
+
+#confirmNo {
+  background: #6c757d;
+  color: white;
+}
+
+
+
+.card button:last-of-type {
+  background-color: #dc3545; /* Red for Delete */
+  color: white;
+}
+
+.card button:last-of-type:hover {
+  background-color: #c82333;
+}
+.card {
+  position: relative;
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.card .delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  line-height: 24px;
+  cursor: pointer;
+  padding: 0;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: background 0.2s ease;
+}
+
+.card .delete-btn:hover {
+  background: #c82333;
+}
+.card {
+  position: relative;
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.card .delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  line-height: 24px;
+  cursor: pointer;
+  padding: 0;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: background 0.2s ease;
+}
+
+.card .delete-btn:hover {
+  background: #c82333;
+}
+
+.card {
+  position: relative;
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.card .delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  line-height: 24px;
+  cursor: pointer;
+  padding: 0;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: background 0.2s ease;
+}
+
+.card .delete-btn:hover {
+  background: #c82333;
+}
+
+.order-card {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 20px;
+  border: none;
+}
+
+.order-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.order-card h4 {
+  margin: 0 0 10px;
+  color: #1a73e8;
+}
+
+.order-card ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.status {
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  font-size: 0.9em;
+  display: inline-block;
+}
+
+.status.shipped {
+  background-color: #fbbc04;
+}
+
+.status.delivered {
+  background-color: #34a853;
+}
+
+.status.cancelled {
+  background-color: #ea4335;
+}
+
+.button-group {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn.shipped {
+  background-color: #fbbc04;
+}
+
+.btn.delivered {
+  background-color: #34a853;
+}
+
+.btn.cancelled {
+  background-color: #ea4335;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+    
+  </style>
+</head>
+<body>
+
+  <nav>
+    <h2>Seller Dashboard</h2>
+    
+  </nav>
+
+  <section class="profile">
+    <section class="profile">
+  <h3>Welcome, <span id="sellerName">[Loading...]</span></h3>
+  <p>Email: <span id="sellerEmail">[Loading...]</span></p>
+</section>
+
+  </section>
+
+  <section class="add-brand">
+    <h3>Add Brand</h3>
+    <form id="addBrandForm" enctype="multipart/form-data">
+      <input type="text" name="name" placeholder="Brand Name" required />
+      <input type="text" name="logourl" placeholder="Logo Image URL (e.g., from Imgur/Cloudinary)" required />
+      
+
+
+      <button type="submit">Add Brand</button>
+    </form>
+  </section>
+
+  <section class="brand-listings">
+    <h3>Your Brands</h3>
+    <div id="brandList" class="grid-list">
+      <!-- Brand cards go here -->
+    </div>
+  </section>
+<section class="add-vehicle">
+  <h3>Add New Vehicle</h3>
+  <form id="addVehicleForm" enctype="multipart/form-data">
+    <input type="text" name="title" placeholder="Vehicle Name" required />
+    <input type="number" name="price" placeholder="Price" required />
+    <input type="text" name="condition" placeholder="Condition" required />
+    <input type="text" name="model" placeholder="Model Year" required />
+    <input type="number" name="year" placeholder="Manufacture Year" required />
+    <input type="text" name="mileage" placeholder="Mileage" required />
+    <input type="text" name="BodyType" placeholder="Body Type" required />
+    
+    <!-- Correct field names for vehicle -->
+    <input type="text" name="brand" placeholder="Brand Name (should match existing one)" required />
+    <input type="text" name="imageUrl" placeholder="Vehicle Image URL (e.g., from Imgur/Cloudinary)" required />
+
+    <button type="submit">Add Vehicle</button>
+  </form>
+</section>
+
+  <section class="product-listings">
+    <h3>Your Vehicles</h3>
+    <div id="vehicleList" class="grid-list">
+      <!-- Vehicle cards go here -->
+    </div>
+  </section>
+  <div id="orderList" class="order-list"></div>
+
+
+<script>
+let accessToken = '';
+let username = '';
+const BASE_URL = 'https://your-backend-name.onrender.com';
+
+// Modal setup
+function showConfirmationModal(message, onConfirm) {
+  const modal = document.createElement('div');
+  modal.style.position = 'fixed';
+  modal.style.top = '0';
+  modal.style.left = '0';
+  modal.style.width = '100vw';
+  modal.style.height = '100vh';
+  modal.style.background = 'rgba(0,0,0,0.4)';
+  modal.style.display = 'flex';
+  modal.style.alignItems = 'center';
+  modal.style.justifyContent = 'center';
+  modal.innerHTML = `
+    <div style="background:white;padding:20px 30px;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.3);text-align:center">
+      <p style="margin-bottom:20px;font-size:16px">${message}</p>
+      <button id="confirmYes" style="background:#dc3545;color:white;padding:8px 12px;border:none;border-radius:6px;margin-right:10px;cursor:pointer">Yes</button>
+      <button id="confirmNo" style="background:#ccc;color:#000;padding:8px 12px;border:none;border-radius:6px;cursor:pointer">No</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  modal.querySelector('#confirmYes').onclick = () => {
+    onConfirm();
+    document.body.removeChild(modal);
+  };
+  modal.querySelector('#confirmNo').onclick = () => {
+    document.body.removeChild(modal);
+  };
+}
+
+function parseJwt(token) {
+  try {
+    const base64Payload = token.split('.')[1];
+    const decodedPayload = atob(base64Payload);
+    return JSON.parse(decodedPayload);
+  } catch (e) {
+    console.error("Invalid JWT", e);
+    return null;
+  }
+}
+
+async function refreshAccessToken() {
+  try {
+    const res = await fetch(`${BASE_URL}/refresh`, {
+      method: 'POST',
+      credentials: 'include'
+    });
+    const data = await res.json();
+    if (res.ok) {
+      accessToken = data.accessToken;
+      const decoded = parseJwt(accessToken);
+      username = decoded?.UserInfo?.email || '';
+    } else {
+      console.warn('Refresh token invalid or expired');
+    }
+  } catch (err) {
+    console.error('Refresh failed:', err);
+  }
+}
+
+// ---------------------- BRAND FUNCTIONS -----------------------
+
+document.getElementById("addBrandForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  await refreshAccessToken(); 
+  const name = this.name.value.trim();
+  const logourl = this.logourl.value.trim();
+
+  try {
+    const res = await fetch(`${BASE_URL}/seller/brands`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`
+      },
+      body: JSON.stringify({ name, logourl })
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      alert("Brand added successfully!");
+      this.reset();
+      loadBrands();
+    } else {
+      alert(data.message || "Failed to add brand.");
+    }
+  } catch (err) {
+    console.error("Error adding brand:", err);
+    alert("Server error");
+  }
+});
+
+async function loadBrands() {
+  try {
+    const res = await fetch(`${BASE_URL}/seller/brands`, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const brands = await res.json();
+    const brandList = document.getElementById('brandList');
+    brandList.innerHTML = '';
+
+    brands.forEach(brand => {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+      card.onmouseover = () => {
+        card.style.transform = 'scale(1.03)';
+        card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+      };
+      card.onmouseout = () => {
+        card.style.transform = 'scale(1)';
+        card.style.boxShadow = '0 0 5px rgba(0,0,0,0.1)';
+      };
+
+      card.innerHTML = `
+        <div class="card-header">
+          <button class="delete-btn" title="Delete Brand" onclick="confirmDeleteBrand('${brand._id}')">✖</button>
+        </div>
+        <img src="${brand.logourl}" alt="${brand.name}" />
+        <h4>${brand.name}</h4>
+        <button title="Edit Brand" onclick="editBrand('${brand._id}', '${brand.name}', '${brand.logourl}')">Edit</button>
+      `;
+      brandList.appendChild(card);
+    });
+  } catch (err) {
+    console.error('Failed to load brands:', err);
+  }
+}
+
+function editBrand(id, currentName, currentLogo) {
+  const newName = prompt("Edit brand name:", currentName);
+  const newLogo = prompt("Edit logo URL:", currentLogo);
+  if (!newName || !newLogo) return;
+
+  fetch(`${BASE_URL}/seller/brands/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${accessToken}`
+    },
+    body: JSON.stringify({ name: newName, logourl: newLogo })
+  })
+  .then(res => res.json())
+  .then(() => {
+    alert("Brand updated successfully!");
+    loadBrands();
+  })
+  .catch(err => {
+    console.error("Error updating brand:", err);
+    alert("Failed to update brand");
+  });
+}
+
+function confirmDeleteBrand(id) {
+  showConfirmationModal("Are you sure you want to delete this brand?", () => deleteBrand(id));
+}
+
+async function deleteBrand(id) {
+  try {
+    const res = await fetch(`${BASE_URL}/seller/brands/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`
+      }
+    });
+    const data = await res.json();
+    alert(data.message || "Brand deleted.");
+    loadBrands();
+  } catch (err) {
+    console.error("Error deleting brand:", err);
+    alert("Failed to delete brand");
+  }
+}
+
+// ---------------------- VEHICLE FUNCTIONS -----------------------
+
+document.getElementById("addVehicleForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  await refreshAccessToken(); 
+  const formData = new FormData(this);
+  const vehicle = {
+    title: formData.get("title"),
+    price: Number(formData.get("price")),
+    condition: formData.get("condition"),
+    model: formData.get("model"),
+    year: Number(formData.get("year")),
+    mileage: formData.get("mileage"),
+    BodyType: formData.get("BodyType"),
+    brand: formData.get("brand"),
+    imageUrl: formData.get("imageUrl")
+  };
+
+  try {
+    const res = await fetch(`${BASE_URL}/seller/products`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`
+      },
+      body: JSON.stringify(vehicle)
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      alert("Vehicle added successfully!");
+      this.reset();
+      loadVehicles();
+    } else {
+      alert(data.message || "Failed to add vehicle.");
+    }
+  } catch (err) {
+    console.error("Error adding vehicle:", err);
+    alert("Server error");
+  }
+});
+
+async function loadVehicles() {
+  try {
+    const res = await fetch(`${BASE_URL}/seller/products`, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const vehicles = await res.json();
+    const vehicleList = document.getElementById('vehicleList');
+    vehicleList.innerHTML = '';
+
+    vehicles.forEach(vehicle => {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+      card.onmouseover = () => {
+        card.style.transform = 'scale(1.03)';
+        card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+      };
+      card.onmouseout = () => {
+        card.style.transform = 'scale(1)';
+        card.style.boxShadow = '0 0 5px rgba(0,0,0,0.1)';
+      };
+
+      card.innerHTML = `
+        <button class="delete-btn" title="Delete Vehicle" onclick="confirmDeleteVehicle('${vehicle._id}')">✖</button>
+        <img src="${vehicle.imageUrl}" alt="${vehicle.title}" />
+        <h4>${vehicle.title}</h4>
+        <p>Brand: ${vehicle.brand?.name || vehicle.brand}</p>
+        <p>Price: ₹${vehicle.price}</p>
+        <p>Year: ${vehicle.year}</p>
+        <p>Model: ${vehicle.model}</p>
+        <p>Mileage: ${vehicle.mileage}</p>
+        <p>Type: ${vehicle.BodyType}</p>
+        <p>Condition: ${vehicle.condition}</p>
+        <button class="edit-btn" title="Edit Vehicle" onclick='editVehicle(${JSON.stringify(vehicle).replace(/'/g, "\\'")})'>Edit</button>
+      `;
+      vehicleList.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Failed to load vehicles:", err.message);
+  }
+}
+
+function confirmDeleteVehicle(id) {
+  showConfirmationModal("Are you sure you want to delete this vehicle?", () => deleteVehicle(id));
+}
+
+async function deleteVehicle(id) {
+  try {
+    const res = await fetch(`${BASE_URL}/seller/products/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+    const data = await res.json();
+    alert(data.message || "Vehicle deleted.");
+    loadVehicles();
+  } catch (err) {
+    console.error("Delete vehicle failed", err);
+    alert("Server error");
+  }
+}
+
+function editVehicle(vehicle) {
+  const newTitle = prompt("Edit title:", vehicle.title);
+  const newPrice = prompt("Edit price:", vehicle.price);
+  const newModel = prompt("Edit model:", vehicle.model);
+  const newYear = prompt("Edit year:", vehicle.year);
+  const newMileage = prompt("Edit mileage:", vehicle.mileage);
+  const newBody = prompt("Edit body type:", vehicle.BodyType);
+  const newCondition = prompt("Edit condition:", vehicle.condition);
+  const newImageUrl = prompt("Edit image URL:", vehicle.imageUrl);
+  const newBrand = prompt("Edit brand name:", vehicle.brand?.name || vehicle.brand);
+
+  const updatedData = {
+    title: newTitle,
+    price: Number(newPrice),
+    model: newModel,
+    year: Number(newYear),
+    mileage: newMileage,
+    BodyType: newBody,
+    condition: newCondition,
+    imageUrl: newImageUrl,
+    brand: newBrand
+  };
+
+  fetch(`${BASE_URL}/seller/products/${vehicle._id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`
+    },
+    body: JSON.stringify(updatedData)
+  })
+  .then(res => res.json())
+  .then(() => {
+    alert("Vehicle updated successfully");
+    loadVehicles();
+  })
+  .catch(err => {
+    console.error("Update failed:", err);
+    alert("Error updating vehicle");
+  });
+}
+async function loadOrders() {
+  try {
+    const res = await fetch(`${BASE_URL}/orders/seller`, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    });
+    const orders = await res.json();
+
+    const orderList = document.getElementById('orderList');
+    orderList.innerHTML = '';
+
+    if (!orders.length) {
+      orderList.innerHTML = '<p>No orders found for your vehicles.</p>';
+      return;
+    }
+
+    orders.forEach(order => {
+      const card = document.createElement('div');
+      card.className = 'order-card';
+
+      card.innerHTML = `
+        <h4>🧾 Order ID: <span class="order-id">${order._id}</span></h4>
+        <p><strong>Status:</strong> <span class="status ${order.status}">${order.status.toUpperCase()}</span></p>
+        <p><strong>Buyer:</strong> ${order.buyer?.fullName || 'Unknown'}</p>
+        <p><strong>Delivered At:</strong> ${order.deliveredAt ? new Date(order.deliveredAt).toLocaleDateString() : 'Not delivered'}</p>
+        <ul>
+          ${order.items.map(item => `
+            <li>
+              <strong>${item.productId?.title || 'Unknown Vehicle'}</strong> - ₹${item.productId?.price || 'N/A'} × ${item.quantity}
+            </li>
+          `).join('')}
+        </ul>
+        <p><strong>Total:</strong> ₹${order.totalAmount}</p>
+        <div class="button-group">
+          <button class="btn shipped" onclick="updateStatus('${order._id}', 'shipped')">Mark as Shipped</button>
+          <button class="btn delivered" onclick="updateStatus('${order._id}', 'delivered')">Mark as Delivered</button>
+          <button class="btn cancelled" onclick="updateStatus('${order._id}', 'cancelled')">Cancel Order</button>
+        </div>
+      `;
+
+      orderList.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Failed to fetch orders:", err);
+  }
+}
+
+async function updateStatus(orderId, status) {
+  try {
+    const res = await fetch(`${BASE_URL}/orders/${orderId}/status`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + accessToken
+      },
+      body: JSON.stringify({ status })
+    });
+    if (res.ok) {
+      alert("Order status updated.");
+      loadOrders(); // reload orders after status change
+    } else {
+      const err = await res.json();
+      alert("Failed to update: " + err.message);
+    }
+  } catch (err) {
+    console.error("Error updating order:", err);
+    alert("Server error updating order.");
+  }
+}
+
+
+// ---------------------- INIT -----------------------
+
+window.onload = async () => {
+  await refreshAccessToken();
+  document.getElementById('sellerEmail').textContent = username;
+  const nameGuess = username.split('@')[0].replace(/\./g, ' ').replace(/\d+/g, '');
+  document.getElementById('sellerName').textContent = nameGuess.charAt(0).toUpperCase() + nameGuess.slice(1);
+  loadBrands();
+  loadVehicles();
+  loadOrders();
+  
+};
+</script>
+
+
+</body>
+</html>

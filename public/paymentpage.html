@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Razorpay Test Checkout</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+  <h2>Pay ₹1000</h2>
+  <button id="payBtn">Pay Now</button>
+
+  <script>
+    const BASE_URL = window.location.hostname.includes("localhost")
+  ? "http://localhost:5000"
+  : "https://your-backend-name.onrender.com";
+    document.getElementById("payBtn").onclick = async function () {
+      const res = await fetch(`${BASE_URL}/create-order`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: 100000 }) // ₹1000 in paise
+      });
+      
+
+      const order = await res.json();
+
+      const options = {
+        key: "rzp_test_DvKzDxGPvFHujQ", // Replace with your Razorpay Test key_id
+        amount: order.amount,
+        currency: "INR",
+        name: "Second-Hand Vehicle",
+        description: "Vehicle Booking Payment",
+        order_id: order.id,
+        handler: function (response) {
+          alert("✅ Payment Successful!\nPayment ID: " + response.razorpay_payment_id);
+        },
+        prefill: {
+          name: "Test User",
+          email: "test@example.com",
+          contact: "9999999999"
+        },
+        theme: {
+          color: "#528FF0"
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+    };
+  </script>
+</body>
+</html>

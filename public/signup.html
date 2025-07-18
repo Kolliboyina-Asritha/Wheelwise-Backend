@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Customer Sign Up</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f6f9;
+   
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    nav.navbar {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      border-bottom: 1px solid #ddd;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #111;
+    }
+
+    .logo span {
+      color: #e60023;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .nav-links li {
+      position: relative;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      padding: 8px 12px;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #1a73e8;
+    }
+
+    /* Dropdown */
+    .dropdown,
+    .submenu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #fff;
+      min-width: 180px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      display: none;
+      flex-direction: column;
+      border-radius: 5px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .dropdown a,
+    .submenu a {
+      padding: 10px 15px;
+      white-space: nowrap;
+      font-weight: normal;
+      color: #333;
+    }
+
+    .dropdown a:hover,
+    .submenu a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .has-dropdown:hover > .dropdown {
+      display: flex;
+    }
+
+    .has-submenu {
+      position: relative;
+    }
+
+    .has-submenu:hover > .submenu {
+      display: flex;
+      left: 100%;
+      top: 0;
+    }
+
+    .nav-icons {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-icons i {
+      font-size: 18px;
+      color: #333;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .nav-icons i:hover {
+      color: #1a73e8;
+    }
+
+    .add-cart-btn {
+      background-color: #1a73e8;
+      color: white;
+      padding: 7px 14px;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+      nav.navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+   .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .footer-box {
+      flex: 1 1 220px;
+    }
+
+    .footer-box h4 {
+      border-bottom: 2px solid white;
+      display: inline-block;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+
+    .footer-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-box ul li {
+      margin-bottom: 8px;
+    }
+
+    .footer-box ul li a {
+      color: #ddd;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-box ul li a:hover {
+      color: #fff;
+    }
+
+    .newsletter-input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 10px;
+    }
+
+    .subscribe-btn {
+      background: #e60023;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .subscribe-btn:hover {
+      background: #c2001d;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #ccc;
+      margin-top: 30px;
+      padding-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-socials {
+      margin-top: 10px;
+    }
+
+    .footer-socials a {
+      margin: 0 5px;
+      display: inline-block;
+    }
+
+    .footer-socials img {
+      width: 24px;
+      height: 24px;
+    }
+    @media screen and (max-width: 1024px) {
+  .nav-container {
+    gap: 20px;
+  }
+
+  .nav-links {
+    gap: 15px;
+  }
+
+  .card img {
+    height: 120px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  nav.navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px;
+  }
+
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 15px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .nav-icons {
+    align-self: flex-end;
+  }
+
+  .grid-list {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    padding: 0 10px;
+  }
+
+  .card {
+    padding: 12px;
+  }
+
+  .card img {
+    height: 100px;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .footer-box {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  .footer-bottom {
+    font-size: 13px;
+    padding: 15px 10px;
+  }
+
+  .footer-socials a {
+    margin: 0 8px;
+  }
+
+  .subscribe-btn {
+    width: 100%;
+  }
+}
+.wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
+
+    .signup-container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      width: 450px;
+      max-width: 95%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    .row {
+      display: flex;
+      gap: 15px;
+    }
+
+    .row .form-group {
+      flex: 1;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .checkbox-group input {
+      margin-right: 10px;
+    }
+
+    .checkbox-group a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+
+    .checkbox-group a:hover {
+      text-decoration: underline;
+    }
+
+    .signup-btn {
+      width: 100%;
+      background: #1a73e8;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .signup-btn:hover {
+      background: #125dc2;
+    }
+
+    .g_id_signin {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .login-link a {
+      color: #1a73e8;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 38px;
+      cursor: pointer;
+      color: #888;
+    }
+
+    @media (max-width: 500px) {
+      .row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="logo">
+      <span>Wheel</span>Wise
+    </div>
+
+    <div class="nav-container">
+      <ul class="nav-links">
+        <li><a href="homepage.html">Home</a></li>
+        <li><a href="homepage.html#about">About</a></li>
+
+        <!-- Pages Dropdown -->
+        
+
+        <li><a href="homepage.html#brands">Shop</a></li>
+        
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <div class="nav-icons">
+        
+        <a href="#" onclick="goToCart(event)"><i class="fas fa-shopping-cart"></i></a>
+        
+    
+      </div>
+    </div>
+  </nav>
+  <br>
+  
+<div class="wrapper">
+  <div class="signup-container">
+    <h2>Customer Sign Up</h2>
+    <form id="signupForm">
+      <!-- First & Last Name -->
+      <div class="row">
+        <div class="form-group">
+          <label for="fname">First Name</label>
+          <input type="text" id="fname" name="firstname" required>
+        </div>
+        <div class="form-group">
+          <label for="lname">Last Name</label>
+          <input type="text" id="lname" name="lastname" required>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <!-- Mobile Number -->
+      <div class="form-group">
+        <label for="phone">Mobile Number</label>
+        <input type="tel" id="phone" name="mobileno" required>
+      </div>
+
+      <!-- Password & Confirm Password -->
+      <div class="row">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="pwd" required>
+          <i class="fas fa-eye toggle-password" onclick="togglePassword('password', this)"></i>
+        </div>
+        <div class="form-group">
+          <label for="cpassword">Confirm Password</label>
+          <input type="password" id="cpassword" required>
+          <i class="fas fa-eye toggle-password" onclick="togglePassword('cpassword', this)"></i>
+        </div>
+      </div>
+
+      <!-- Terms -->
+      <div class="checkbox-group">
+        <input type="checkbox" id="terms" required>
+        <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
+      </div>
+
+      <!-- Sign Up Button -->
+      <button type="submit" class="signup-btn">Create Account</button>
+
+      <!-- Google Sign In -->
+      <div id="g_id_onload"
+           data-client_id="458052889944-eu630co6l8l7fnasv48bdm3o4tgr94nq.apps.googleusercontent.com"
+           data-callback="handleGoogleLogin"
+           data-auto_prompt="false">
+      </div>
+
+      <div class="g_id_signin"
+           data-type="standard"
+           data-size="large"
+           data-theme="outline"
+           data-text="signup_with"
+           data-shape="rectangular"
+           data-logo_alignment="left">
+      </div>
+
+      <!-- Login Link -->
+      <div class="login-link">
+        Already have an account? <a href="login.html">Login</a>
+      </div>
+    </form>
+  </div>
+</div>
+<footer style="background: linear-gradient(to right, #0052a0, #003170); color: white; padding: 40px 20px 20px;">
+  <div class="footer-container">
+    <!-- Column 1: Company Info -->
+    <div class="footer-box">
+      <h3 style="margin-top: 0;">OnlineShop</h3>
+      <p>"Experience the pinnacle of automotive engineering with our meticulously crafted vehicles."</p>
+      <p>📞 +2 123 564 7898</p>
+      <p>📍 25/B Millford Road, New York</p>
+      <p>✉️ info@gmail.com</p>
+    </div>
+
+    <!-- Column 2: Quick Links -->
+    <div class="footer-box">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="homepage.html#about">About Us</a></li>
+        <li><a href="#">Update News</a></li>
+        <li><a href="#">Testimonials</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+       
+      </ul>
+    </div>
+
+    <!-- Column 3: Support -->
+    <div class="footer-box">
+      <h4>Support Center</h4>
+      <ul>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Affiliates</a></li>
+        <li><a href="#">Booking</a></li>
+        <li><a href="#">Sell Vehicles</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="#">Sitemap</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 4: Newsletter -->
+    <div class="footer-box">
+      <h4>Newsletter</h4>
+      <p>"Experience the pinnacle of automotive engineering with our meticulously crafted vehicles."</p>
+      <input type="email" placeholder="Your Email" class="newsletter-input" />
+      <button class="subscribe-btn">Subscribe Now →</button>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© Copyright 2025 OnlineShop. All Rights Reserved.</p>
+    <div class="footer-socials">
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733547.psng" alt="Facebook"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733558.png" alt="Twitter"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733561.png" alt="LinkedIn"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/2111/2111710.png" alt="YouTube"></a>
+    </div>
+  </div>
+</footer>
+  <script>
+    const BASE_URL = 'https://your-backend-name.onrender.com';
+    function togglePassword(id, icon) {
+      const input = document.getElementById(id);
+      if (input.type === "password") {
+        input.type = "text";
+        icon.classList.replace("fa-eye", "fa-eye-slash");
+      } else {
+        input.type = "password";
+        icon.classList.replace("fa-eye-slash", "fa-eye");
+      }
+    }
+
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const firstname = document.getElementById('fname').value;
+      const lastname = document.getElementById('lname').value;
+      const email = document.getElementById('email').value;
+      const mobileno = document.getElementById('phone').value;
+      const pwd = document.getElementById('password').value;
+      const confirmPwd = document.getElementById('cpassword').value;
+
+      if (pwd !== confirmPwd) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${BASE_URL}/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ firstname, lastname, email, mobileno, pwd })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert(data.success || "Registration successful!");
+          window.location.href = "login.html";
+        } else {
+          alert(data.message || "Registration failed.");
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        alert("Something went wrong. Please try again later.");
+      }
+    });
+
+    async function handleGoogleLogin(response) {
+      const idToken = response.credential;
+
+      try {
+        const res = await fetch(`${BASE_URL}/auth/google`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: idToken })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert("Signed up successfully with Google!");
+          localStorage.setItem('accessToken', data.accessToken);
+          window.location.href = "homepage.html"; // Redirect as needed
+        } else {
+          alert(data.message || "Google signup failed.");
+        }
+      } catch (err) {
+        console.error("Google signup error:", err);
+        alert("Something went wrong during Google signup.");
+      }
+    }
+  </script>
+</body>
+</html>

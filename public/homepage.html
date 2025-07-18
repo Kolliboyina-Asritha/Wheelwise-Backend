@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gradient Hero Car Slider</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .topbar {
+      background-color: #111;
+      color: white;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 40px;
+      align-items: center;
+    }
+
+    .topbar .left-info span {
+      margin-right: 20px;
+    }
+
+    .topbar .right-info a,
+    .topbar .right-info span {
+      margin-left: 12px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .navbar {
+      
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #111;
+      flex: 1;
+    }
+
+    .logo span {
+      color: red;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex: 2;
+      gap: 30px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      position: relative;
+    }
+
+    .nav-links li {
+      position: relative;
+    }
+
+    .nav-links li a,
+    .dropdown li a,
+    .submenu li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      padding: 10px;
+      display: block;
+      white-space: nowrap;
+    }
+
+    .nav-links li .dropdown,
+    .dropdown .submenu {
+      display: none;
+      position: absolute;
+      background: #fff;
+      min-width: 160px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .dropdown li:hover {
+      background: #f1f1f1;
+    }
+
+    .has-submenu {
+      position: relative;
+    }
+
+    .has-submenu:hover .submenu {
+      display: block;
+      left: 100%;
+      top: 0;
+    }
+
+    .nav-icons {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .nav-icons i {
+      font-size: 16px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .add-cart-btn {
+      background-color: #1a73e8;
+      color: white;
+      padding: 7px 14px;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* --------- HERO SECTION --------- */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 40px;
+      background: linear-gradient(to right, #000, #111);
+      color: white;
+      position: relative;
+      transition: background 0.5s ease;
+    }
+
+    .hero-text {
+      max-width: 50%;
+    }
+    .stat-icon {
+  width: 80px;
+  height: 80px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  font-size: 32px; /* Add this line */
+  color: #004AAD;  /* Optional: set a color to match your theme */
+}
+    .hero-text h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .hero-text h1 {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero-text h1 span {
+      color: #1a73e8;
+    }
+
+    .hero-text p {
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .hero-buttons .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn.blue {
+      background-color: #1a73e8;
+      color: white;
+    }
+
+    .btn.light {
+      background-color: #f4f4f4;
+      color: #111;
+    }
+
+    .hero-img img {
+      max-width: 550px;
+      height: auto;
+      transition: opacity 0.5s ease;
+    }
+
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      font-size: 30px;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+      z-index: 1;
+    }
+
+    .slider-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .slider-btn.left {
+      left: 20px;
+    }
+
+    .slider-btn.right {
+      right: 20px;
+    }
+    .dots-container {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 5;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.dot.active {
+  background: #1a73e8;
+}
+.search-section {
+  background: #fff;
+  padding: 50px 20px;
+  text-align: center;
+}
+.vehicle-type {
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+.vehicle-type select {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  min-width: 180px;
+}
+.search-box {
+  max-width: 1100px;
+  margin: auto;
+  background: #f9f9f9;
+  padding: 40px 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+.search-box h2 {
+  text-align: left;
+  font-size: 24px;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.form-group {
+  text-align: left;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+.search-button {
+  margin-top: 30px;
+  text-align: center;
+}
+.search-button button {
+  background-color: #1a73e8;
+  color: white;
+  padding: 12px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.search-button button:hover {
+  background-color: #125dc2;
+}
+.about-us {
+  padding: 80px 40px;
+  background-color: #fdfdfd;
+}
+
+.about-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.about-left {
+  flex: 1;
+  position: relative;
+}
+
+.badge {
+  background: #111;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 200px;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.badge img {
+  width: 40px;
+  height: 40px;
+}
+
+.about-car {
+  width: 100%;
+  max-width: 400px;
+}
+
+.about-right {
+  flex: 1;
+  min-width: 300px;
+}
+
+.about-right h4 {
+  color: #1a73e8;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.about-right h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+.about-right h1 span {
+  color: #1a73e8;
+}
+
+.about-right p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.about-right ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 30px;
+}
+
+.about-right ul li {
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #333;
+}
+
+.btn-discover {
+  background: #1a73e8;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.btn-discover:hover {
+  background-color: #125dc2;
+}
+ .stats-section {
+      background: linear-gradient(to right, #004AAD, #1565C0);
+      color: white;
+      padding: 60px 20px;
+    }
+
+    .stats-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: auto;
+      gap: 30px;
+    }
+
+    .stat-box {
+      text-align: center;
+      flex: 1 1 200px;
+    }
+
+    .stat-icon {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+    }
+
+    .stat-icon img {
+      width: 50%;
+    }
+
+    .stat-number {
+      font-size: 36px;
+      font-weight: bold;
+    }
+
+    .stat-label {
+      margin-top: 8px;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+    }
+   .box1{
+    width:400px;
+    height:220px;
+    background-color: ghostwhite;
+    border-radius: 10px;
+   }
+   .container1{
+    display: flex;
+    flex-direction: row;
+    gap:20px;
+    justify-content: space-between;
+   }
+   img{
+    width:90%;
+   }
+  .head1, .head2 {
+  text-align: center;
+  margin-top: 30px;
+}
+.head2{
+  margin-bottom:20px;
+}
+.head1 i {
+  font-size: 28px;
+  color: #1a73e8;
+  
+}
+.head2 h1 {
+  font-size: 32px;
+ 
+}
+
+.grid-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.2rem;
+  margin: 2rem 0;
+  padding: 0 1rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card img {
+  width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-bottom: 0.8rem;
+}
+
+.card h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #1a73e8;
+}
+.auth-btn {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-btn:hover {
+  background-color: #084cdf;
+}
+
+.auth-btn:active {
+  transform: scale(0.97);
+}
+
+    section#testimonials {
+      padding: 50px 20px;
+      background: white;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .testimonial-scroll-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding-bottom: 20px;
+      scroll-behavior: smooth;
+    }
+
+    .testimonial-scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .testimonial-scroll-container::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 4px;
+    }
+
+    .testimonial-card {
+      flex: 0 0 300px;
+      background: #f9f9f9;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .testimonial-card img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #007bff;
+      margin-bottom: 15px;
+    }
+
+    .testimonial-card h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #222;
+    }
+
+    .testimonial-card .role {
+      color: #007bff;
+      font-weight: bold;
+      margin: 5px 0 15px;
+    }
+
+    .testimonial-card .feedback-text {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 10px;
+    }
+
+    .testimonial-card .stars {
+      color: gold;
+      font-size: 18px;
+    }
+     .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .footer-box {
+      flex: 1 1 220px;
+    }
+
+    .footer-box h4 {
+      border-bottom: 2px solid white;
+      display: inline-block;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+
+    .footer-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-box ul li {
+      margin-bottom: 8px;
+    }
+
+    .footer-box ul li a {
+      color: #ddd;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-box ul li a:hover {
+      color: #fff;
+    }
+
+    .newsletter-input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 10px;
+    }
+
+    .subscribe-btn {
+      background: #e60023;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .subscribe-btn:hover {
+      background: #c2001d;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #ccc;
+      margin-top: 30px;
+      padding-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-socials {
+      margin-top: 10px;
+    }
+
+    .footer-socials a {
+      margin: 0 5px;
+      display: inline-block;
+    }
+
+    .footer-socials img {
+      width: 24px;
+      height: 24px;
+    }
+     .quality-section {
+      background-color: #153463;
+      color: white;
+      padding: 60px 20px;
+      font-family: sans-serif;
+    }
+
+    .quality-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .quality-left {
+      flex: 1 1 50%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .quality-card {
+      background: white;
+      color: #000;
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .quality-card img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .quality-card h4 {
+      font-size: 22px;
+      color: #0050d5;
+      margin: 0;
+    }
+
+    .quality-card h3 {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+
+    .quality-card p {
+      font-size: 14px;
+      color: #444;
+    }
+
+    .quality-right {
+      flex: 1 1 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .quality-right h2 {
+      font-size: 32px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .quality-right h2 span {
+      color: #1d66da;
+    }
+
+    .quality-right p {
+      color: #ddd;
+      max-width: 400px;
+    }
+
+    .quality-right img {
+      width: 100%;
+      max-width: 400px;
+    }
+    
+     #brand-heading {
+    background: linear-gradient(to right, #ffcc80, #ffe0b2);
+    padding: 10px;
+    border-radius: 8px;
+    animation: sparkle 2s infinite alternate;
+    font-size: 1.4rem;
+  }
+
+  @keyframes sparkle {
+    0% { text-shadow: 0 0 5px #ffd700; }
+    100% { text-shadow: 0 0 20px #ffea00; }
+  }
+    @media (max-width: 768px) {
+      .quality-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .quality-left {
+        grid-template-columns: 1fr;
+      }
+
+      .quality-right {
+        align-items: center;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      .footer-box {
+        margin-bottom: 20px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="left-info">
+      <span><i class="fas fa-envelope"></i> asrithaasritha99@gmail.com</span>
+      <span><i class="fas fa-phone"></i> +91 7989178986</span>
+      <span><i class="fas fa-clock"></i> Sun–Fri (08AM - 10PM)</span>
+    </div>
+    <div class="right-info"  id="auth-buttons">
+      <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+      <a href="signup.html"><i class="fas fa-user"></i> Register</a>
+      <span>Follow Us:</span>
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+    <div class="right-info" id="logout-section" style="display: none;">
+      <button id="seller-dashboard-btn" style="background: none; border: none; color: white; font-size: 14px; cursor: pointer;">Seller Dashboard</button>
+  <button onclick="handleLogout()" style=" margin-left: 30px;background: none; border: none; color: white; font-size: 14px; cursor: pointer;">
+    <i class="fas fa-sign-out-alt"></i> Logout
+  </button>
+ 
+  </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+    <span>Wheel</span>Wise
+    </div>
+
+    <div class="nav-container">
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+
+        <!-- Pages Dropdown -->
+        <li class="has-dropdown">
+          <a href="#" id="pagesLink">Pages <i class="fas fa-caret-down"></i></a>
+          <ul class="dropdown" id="pagesDropdown">
+           
+            <li class="has-submenu">
+              <a href="#">My Account <i class="fas fa-caret-right"></i></a>
+              <ul class="submenu">
+                <li><a href=" #"onclick="goToDashboard(event)">Profile</a></li>
+              </ul>
+            </li>
+            <li><a href="login.html">Authentication</a></li>
+            
+            <li><a href="#team">Our Team</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#brands">Shop</a></li>
+        
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <div class="nav-icons">
+        
+        <a href="#" onclick="goToCart(event)"><i class="fas fa-shopping-cart"></i></a>
+        
+    
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section with Car Image Slider -->
+  <section class="hero" id="home">
+    <button class="slider-btn left" onclick="prevSlide()">❮</button>
+
+    <div class="hero-text">
+      
+      <h1>BEST WAY TO FIND<br>YOUR <span>JOURNEY</span></h1>
+      <p>
+        Find your dream car today with our extensive selection of reliable and affordable used vehicles. Browse a wide variety of makes, models, and years — all from the comfort of your home...
+      </p>
+      <div class="hero-buttons">
+        <a href="#about"><button class="btn blue">About More ➜</button></a>
+        <a href="#about"><button class="btn light">Learn More ➜</button></a>
+      </div>
+    </div>
+
+    <div class="hero-img">
+      <img id="carImage" src="https://res.cloudinary.com/do3p9y7nw/image/upload/v1752293374/car5_mw9sgz.webp" alt="Car" />
+    </div>
+    <div class="dots-container" id="dotsContainer"></div>
+
+
+    <button class="slider-btn right" onclick="nextSlide()">❯</button>
+  </section>
+  <section class="search-section">
+  <div class="vehicle-type">
+    <label for="vehicleType">Select Vehicle Type:</label>
+    <select id="vehicleType">
+      <option value="Car">Car</option>
+      <option value="Bike">Bike</option>
+      <option value="Lorry">Lorry</option>
+    </select>
+  </div>
+
+  <div class="search-box">
+    <h2 id="vehicleHeading">Let's Find Your Car</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label id="conditionLabel" for="condition">Car Condition</label>
+        <select id="condition">
+          <option>All Status</option>
+          <option>New</option>
+          <option>second hand</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="brand">Brand Name</label>
+        <select id="brand">
+          <option>All Brand</option>
+          <option>BMW</option>
+          <option>Audi</option>
+          <option>Toyota</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label id="modelLabel" for="model">Car Model</label>
+        <select id="model">
+          <option>All Model</option>
+          <option>car</option>
+          <option>Model Y</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="year">All Years</label>
+        <select id="year">
+          <option>2025</option>
+          <option>2024</option>
+          
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="mileage" >Choose Mileage</label>
+        <select id="mileage">
+          <option>20km/L</option>
+          <option>20km/hr</option>
+          <option>10000 miles</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="price">Price Range</label>
+        <select id="price">
+          <option>All Prices</option>
+          <option>₹5000000</option>
+          <option>₹3000000</option>
+          <option>₹10000000</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label id="bodyTypeLabel" for="bodyType">Body Type</label>
+        <select id="bodyType">
+          <option>All Body Type</option>
+         
+          <option>car</option>
+      
+        </select>
+      </div>
+    </div>
+    <div class="search-button">
+      <button  id="searchBtn" onclick="searchVehicles()">🔍 Find your Car</button>
+    </div>
+  </div>
+</section>
+<section id="about"class="about-us">
+  <div class="about-container">
+    <div class="about-left">
+      <div class="badge">
+        <h2>🚙</h2>
+        <p>20 Years Of<br><strong>Quality Service</strong></p>
+      </div>
+      <img src="car2.jpg" alt="Red Car" class="about-car" />
+    </div>
+    <div class="about-right">
+      <h4><i class="fas fa-car"></i> About Us</h4>
+      <h1>World Best <span>E-Commerce</span> Marketplace</h1>
+      <p>
+        The online vehicle market, or automotive e-commerce, is a rapidly growing sector, poised to revolutionize how we buy and sell vehicles. Driven by technological advancements, changing consumer preferences, and the convenience of online shopping, this market is expected to see substantial growth in the coming years.
+      </p>
+      <ul>
+        <li>✔️ The online vehicle market, or automotive e-commerce</li>
+        <li>✔️ Fast, reliable vehicle listings & comparison</li>
+        <li>✔️ From brand new to used cars, bikes, parts</li>
+      </ul>
+      <a href="#" class="btn-discover">Discover More ➜</a>
+    </div>
+  </div>
+</section>
+
+ <section class="stats-section" id="team">
+    <div class="stats-container">
+      <div class="stat-box">
+        <div class="stat-icon">
+          <i class="fa-solid fa-truck-pickup"></i>
+        </div>
+        <div class="stat-number">500</div>
+        <div class="stat-label">+ Available Vehicles</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-icon">
+         <i class="fa-solid fa-person"></i>
+        </div>
+        <div class="stat-number">900</div>
+        <div class="stat-label">+ Happy Clients</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-icon">
+          <i class="fa-solid fa-people-group"></i>
+        </div>
+        <div class="stat-number">1245</div>
+        <div class="stat-label">+ Team Workers</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-icon">
+          <i class="fa-solid fa-user-graduate"></i>
+        </div>
+        <div class="stat-number">20</div>
+        <div class="stat-label">+ Years Of Experience</div>
+      </div>
+    </div>
+  </section>
+  
+  <section>
+    <div class="head1">
+      <h2>CAR CATEGORY</h2>
+    </div>
+    <div class="head2">
+      <h1>Car Body <span style="color:blue">Types</span></h1>
+    </div>
+    <div class="container1">
+      <div class="box1 ">
+        <img src="https://res.cloudinary.com/do3p9y7nw/image/upload/v1752293737/car3.1_u5bzod.png">
+      
+      </div>
+       <div class="box1">
+        <img src="https://res.cloudinary.com/do3p9y7nw/image/upload/v1752293395/car2.3_yj6umm.png">
+   
+      </div>
+       <div class="box1">
+        <img src="https://res.cloudinary.com/do3p9y7nw/image/upload/v1752293437/car2.2_zhtvwe.png">
+       
+      </div>
+       <div class="box1">
+        <img src="https://res.cloudinary.com/do3p9y7nw/image/upload/v1752293404/car5.5_mdloz1.png">
+        
+      </div>
+    </div>
+  </section>
+   <section>
+    <div class="head1">
+      <h2>BIKE CATEGORY</h2>
+    </div>
+    <div class="head2">
+      <h1>Bike Body<span style="color:blue">Types</span></h1>
+    </div>
+    <div class="container1">
+      <div class="box1">
+        <img src="https://res.cloudinary.com/do3p9y7nw/image/upload/v1752823164/bajajclassic1_id0bkh.png">
+      
+      </div>
+       <div class="box1">
+        <img src="https://res.cloudinary.com/do3p9y7nw/image/upload/v1752823185/yamahaclassic1_kgnfew.png">
+   
+      </div>
+       <div class="box1">
+        <img src="https://res.cloudinary.com/do3p9y7nw/image/upload/v1752823198/royalpulsar1_ewtfib.png">
+       
+      </div>
+       <div class="box1">
+        <img src="https://res.cloudinary.com/do3p9y7nw/image/upload/v1752823172/yamahar151_zmvpip.png">
+        
+      </div>
+    </div>
+  </section>
+   <section>
+    <div class="head1">
+      <h2>Lorry CATEGORY</h2>
+    </div>
+    <div class="head2">
+      <h1>Lorry Body <span style="color:blue">Types</span></h1>
+    </div>
+    <div class="container1">
+      <div class="box1">
+        <img src="https://res.cloudinary.com/do3p9y7nw/image/upload/v1752823477/tataace1_wapwwu.png">
+      
+      </div>
+       <div class="box1">
+        <img src="https://res.cloudinary.com/do3p9y7nw/image/upload/v1752823462/ashokboss1_nhuuix.png">
+   
+      </div>
+       <div class="box1">
+        <img src="https://res.cloudinary.com/do3p9y7nw/image/upload/v1752823485/ashokpro1_zvbnng.png">
+       
+      </div>
+       <div class="box1">
+        <img src="https://res.cloudinary.com/do3p9y7nw/image/upload/v1752822051/tataboss_mlsoft.png">
+        
+      </div>
+    </div>
+  </section>
+  <br><br><br>
+  <section class="quality-section">
+  <div class="quality-container">
+    <!-- Left content -->
+    <div class="quality-left">
+      <div class="quality-card">
+        <h2>🚗</h2>
+        <div>
+          <h4>01</h4>
+          <h3>Best Quality Automobiles</h3>
+          <p>Experience the pinnacle of automotive engineering with our meticulously crafted vehicles.</p>
+        </div>
+      </div>
+      <div class="quality-card">
+        <h2>🚙</h2>
+        <div>
+          <h4>02</h4>
+          <h3>Popular Brands</h3>
+          <p>Experience the pinnacle of automotive engineering with our meticulously crafted vehicles.</p>
+        </div>
+      </div>
+      <div class="quality-card">
+        <h2>🏍️</h2>
+        <div>
+          <h4>03</h4>
+          <h3>Certified Mechanics</h3>
+          <p>Experience the pinnacle of automotive engineering with our meticulously crafted vehicles.</p>
+        </div>
+      </div>
+      <div class="quality-card">
+       <h2>🚛</h2>
+        <div>
+          <h4>04</h4>
+          <h3>Reasonable Price</h3>
+          <p>Experience the pinnacle of automotive engineering with our meticulously crafted vehicles.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right content -->
+    <div class="quality-right">
+      <h2><span>We Are Dedicated</span> To <span>Provide</span> Quality Service</h2>
+      <p>Experience the pinnacle of automotive engineering with our meticulously crafted vehicles.</p>
+      <img src="car2.2.png" alt="Car Image" />
+    </div>
+  </div>
+  </section>
+  <section  id="brands" style="background: white; padding: 40px 20px;">
+  <h3 id="brand-heading" style="text-align: center; color: #1a237e; margin-bottom: 10px; letter-spacing: 2px;">
+  ✨ Shop now!!!! <strong>on clicking the brands!</strong> ✨
+</h3>
+
+<!-- Notification message -->
+<div id="notify" style="
+  display: none;
+  background: #0d47a1;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  font-weight: bold;
+  z-index: 999;
+">You clicked a brand!</div>
+  <h1 style="text-align: center; font-size: 2.5rem; font-weight: bold;">
+    Our Top Quality <span style="color: #0d47a1;">Brands</span>
+  </h1>
+  <div style="height: 4px; width: 60px; background: #2196f3; margin: 10px auto; border-radius: 10px;"></div>
+
+  <div id="homeBrandList" class="grid-list"></div>
+</section>
+
+<section id="testimonials">
+  <h2>What Our Customers Say</h2>
+  <div class="testimonial-scroll-container" id="testimonialList">
+    <!-- Cards will be inserted here -->
+  </div>
+</section>
+<footer style="background: linear-gradient(to right, #0052a0, #003170); color: white; padding: 40px 20px 20px;">
+  <div class="footer-container">
+    <!-- Column 1: Company Info -->
+    <div class="footer-box">
+      <h3 style="margin-top: 0;">OnlineShop</h3>
+      <p>"Experience the pinnacle of automotive engineering with our meticulously crafted vehicles."</p>
+      <p>📞 +2 123 564 7898</p>
+      <p>📍 25/B Millford Road, New York</p>
+      <p>✉️ info@gmail.com</p>
+    </div>
+
+    <!-- Column 2: Quick Links -->
+    <div class="footer-box">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#">Update News</a></li>
+        <li><a href="#">Testimonials</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+
+      </ul>
+    </div>
+
+    <!-- Column 3: Support -->
+    <div class="footer-box">
+      <h4>Support Center</h4>
+      <ul>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Affiliates</a></li>
+        <li><a href="#">Booking</a></li>
+        <li><a href="#">Sell Vehicles</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Sitemap</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 4: Newsletter -->
+    <div class="footer-box">
+      <h4>Newsletter</h4>
+      <p>"Experience the pinnacle of automotive engineering with our meticulously crafted vehicles."</p>
+      <input type="email" placeholder="Your Email" class="newsletter-input" />
+      <button class="subscribe-btn">Subscribe Now →</button>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© Copyright 2025 OnlineShop. All Rights Reserved.</p>
+    <div class="footer-socials">
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733547.png" alt="Facebook"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733558.png" alt="Twitter"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/733/733561.png" alt="LinkedIn"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/2111/2111710.png" alt="YouTube"></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const BASE_URL = 'https://your-backend-name.onrender.com';
+  // Pages dropdown toggle
+    function showNotification() {
+    const notify = document.getElementById('notify');
+    notify.style.display = 'block';
+    setTimeout(() => {
+      notify.style.display = 'none';
+    }, 2000); // hide after 2 seconds
+  }
+  const pagesLink = document.getElementById("pagesLink");
+  const pagesDropdown = document.getElementById("pagesDropdown");
+
+  pagesLink.addEventListener("click", function (e) {
+    e.preventDefault();
+    pagesDropdown.style.display = (pagesDropdown.style.display === "block") ? "none" : "block";
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!pagesLink.parentElement.contains(e.target)) {
+      pagesDropdown.style.display = "none";
+    }
+  });
+
+  // --- Hero Slider Logic ---
+  const carImages = [
+    "https://res.cloudinary.com/do3p9y7nw/image/upload/v1752293374/car5_mw9sgz.webp",
+    "https://res.cloudinary.com/do3p9y7nw/image/upload/v1752293382/car2_rydhha.jpg",
+    "https://res.cloudinary.com/do3p9y7nw/image/upload/v1752293793/car3_qfgkwx.webp"
+  ];
+  let currentIndex = 0;
+  const carImage = document.getElementById("carImage");
+  const dotsContainer = document.getElementById("dotsContainer");
+
+  // Create dots
+  carImages.forEach((_, index) => {
+    const dot = document.createElement("div");
+    dot.classList.add("dot");
+    dot.addEventListener("click", () => {
+      currentIndex = index;
+      updateSlider();
+    });
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = document.querySelectorAll(".dot");
+
+  function updateSlider() {
+    carImage.src = carImages[currentIndex];
+    dots.forEach(dot => dot.classList.remove("active"));
+    dots[currentIndex].classList.add("active");
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + carImages.length) % carImages.length;
+    updateSlider();
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % carImages.length;
+    updateSlider();
+  }
+
+  setInterval(() => nextSlide(), 2000);
+  updateSlider();
+
+  // --- Vehicle Dropdowns ---
+  const vehicleTypeSelect = document.getElementById("vehicleType");
+  const brandSelect = document.getElementById("brand");
+  const modelSelect = document.getElementById("model");
+  const mileageSelect=document.getElementById("mileage");
+  const priceSelect=document.getElementById("price");
+  const bodyTypeSelect = document.getElementById("bodyType");
+
+  const data = {
+    Car: {
+      brands: ["BMW", "Audi", "Toyota"],
+      models: ["Model X", "car", "Altis"],
+      mileage:["20km/L","23km/L","15km/L"],
+      price:["₹5000000","₹3000000","₹10000000"],
+      bodyTypes: ["car"]
+    },
+    Bike: {
+      brands: ["Royal Enfield", "Bajaj", "Yamaha"],
+      models: ["Classic 350", "Pulsar", "R15"],
+      mileage:["35km/L","45km/L","37km/L"],
+      price:["₹500000","₹300000","₹100000"],
+      bodyTypes: ["bike"]
+    },
+    Lorry: {
+      brands: ["Tata", "Ashok Leyland"],
+      models: ["Ace", "Boss", "Pro 3015"],
+      mileage:["8km/L","10km/L","11km/L"],
+      price:["₹2000000","₹3000000","₹1000000"],
+      bodyTypes: ["lorry"]
+    }
+  };
+
+  function updateDropdown(selectElement, options) {
+    selectElement.innerHTML = "";
+    options.forEach(opt => {
+      const option = document.createElement("option");
+      option.textContent = opt;
+      selectElement.appendChild(option);
+    });
+  }
+
+  function updateLabels(type) {
+    document.getElementById("conditionLabel").textContent = `${type} Condition`;
+    document.getElementById("modelLabel").textContent = `${type} Model`;
+    document.getElementById("bodyTypeLabel").textContent = type === "Lorry" ? "Truck Type" : "Body Type";
+  }
+
+  function updateHeading(type) {
+    document.getElementById("vehicleHeading").textContent = `Let's Find Your ${type}`;
+  }
+
+  function updateButton(type) {
+    document.getElementById("searchBtn").textContent = `🔍 Find your ${type}`;
+  }
+
+  function handleVehicleChange() {
+  const selectedType = vehicleTypeSelect.value;
+  const vehicleData = data[selectedType];
+  
+  if (vehicleData) {
+    updateDropdown(brandSelect, ["All Brand", ...vehicleData.brands]);
+    updateDropdown(modelSelect, ["All Model", ...vehicleData.models]);
+    updateDropdown(bodyTypeSelect, ["All Body Type", ...vehicleData.bodyTypes]);
+    updateDropdown(mileageSelect, ["All Mileage", ...vehicleData.mileage]);
+    updateDropdown(priceSelect, ["All Price", ...vehicleData.price]); // Corrected from 'priceSelct'
+    
+    updateLabels(selectedType);
+    updateHeading(selectedType);
+    updateButton(selectedType);
+  }
+}
+
+  vehicleTypeSelect.addEventListener("change", handleVehicleChange);
+  handleVehicleChange(); // Run on load
+  const feedbackList = [
+    {
+      name: "Asritha A.",
+      role: "Customer",
+      photo: "https://res.cloudinary.com/do3p9y7nw/image/upload/v1752824777/review_qdaflj.jpg",
+      message: "Great experience buying a car! The support was amazing.",
+      rating: 5
+    },
+    {
+      name: "Ravi Kumar",
+      role: "Customer",
+      photo: "https://res.cloudinary.com/do3p9y7nw/image/upload/v1752824777/review_qdaflj.jpg",
+      message: "Smooth process and transparent pricing. Highly recommend!",
+      rating: 4
+    },
+    {
+      name: "Meena S.",
+      role: "Customer",
+      photo: "https://res.cloudinary.com/do3p9y7nw/image/upload/v1752824777/review_qdaflj.jpg",
+      message: "User-friendly platform and great support team.",
+      rating: 4
+    },
+    {
+      name: "Meena S.",
+      role: "Customer",
+      photo: "https://res.cloudinary.com/do3p9y7nw/image/upload/v1752824777/review_qdaflj.jpg",
+      message: "User-friendly platform and great support team.",
+      rating: 4
+    },
+    {
+      name: "Meena S.",
+      role: "Customer",
+      photo: "https://res.cloudinary.com/do3p9y7nw/image/upload/v1752824777/review_qdaflj.jpg",
+      message: "User-friendly platform and great support team.",
+      rating: 4
+    },
+    {
+      name: "Meena S.",
+      role: "Customer",
+      photo: "https://res.cloudinary.com/do3p9y7nw/image/upload/v1752824777/review_qdaflj.jpg",
+      message: "User-friendly platform and great support team.",
+      rating: 4
+    },
+    {
+      name: "Meena S.",
+      role: "Customer",
+      photo: "https://res.cloudinary.com/do3p9y7nw/image/upload/v1752824777/review_qdaflj.jpg",
+      message: "User-friendly platform and great support team.",
+      rating: 4,
+    }
+  ];
+
+  const container = document.getElementById("testimonialList");
+
+  feedbackList.forEach(feedback => {
+    const stars = "★".repeat(feedback.rating) + "☆".repeat(5 - feedback.rating);
+    const card = document.createElement("div");
+    card.className = "testimonial-card";
+    card.innerHTML = `
+      <img src="${feedback.photo}" alt="${feedback.name}">
+      <h3>${feedback.name}</h3>
+      <p class="role">${feedback.role}</p>
+      <p class="feedback-text">${feedback.message}</p>
+      <div class="stars">${stars}</div>
+    `;
+    container.appendChild(card);
+  });
+  // --- Auth Logic ---
+  let accessToken = '';
+  let username = '';
+
+  function parseJwt(token) {
+    try {
+      const base64Payload = token.split('.')[1];
+      const decodedPayload = atob(base64Payload);
+      return JSON.parse(decodedPayload);
+    } catch (e) {
+      console.error("Invalid JWT", e);
+      return null;
+    }
+  }
+
+  async function refreshAccessToken() {
+    try {
+      const res = await fetch(`${BASE_URL}/refresh`, {
+        method: 'POST',
+        credentials: 'include'
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        accessToken = data.accessToken;
+        const decoded = parseJwt(accessToken);
+        username = decoded?.UserInfo?.email || '';
+        console.log("Token refreshed, user:", username);
+      } else {
+        console.warn("Access token refresh failed");
+      }
+    } catch (err) {
+      console.error("Refresh error:", err);
+    }
+  }
+
+  async function checkAuth() {
+    try {
+      const res = await fetch(`${BASE_URL}/refresh`, {
+        method: 'GET',
+        credentials: 'include'
+      });
+
+      if (res.ok) {
+        document.getElementById('auth-buttons').style.display = 'none';
+        document.getElementById('logout-section').style.display = 'flex';
+      } else {
+        document.getElementById('auth-buttons').style.display = 'flex';
+        document.getElementById('logout-section').style.display = 'none';
+      }
+    } catch (err) {
+      document.getElementById('auth-buttons').style.display = 'flex';
+      document.getElementById('logout-section').style.display = 'none';
+    }
+  }
+
+  async function handleLogout() {
+    try {
+      const res = await fetch(`${BASE_URL}/logout`, {
+        method: 'POST',
+        credentials: 'include'
+      });
+
+      if (res.ok || res.status === 204) {
+        alert("Logged out successfully");
+        window.location.href = 'homepage.html';
+      }
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  }
+
+  async function isAuthenticated() {
+    try {
+      const res = await fetch(`${BASE_URL}/refresh`, {
+        method: 'GET',
+        credentials: 'include'
+      });
+      return res.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  function setupCarDetailRedirects() {
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      item.addEventListener('click', async () => {
+        const detailUrl = item.getAttribute('data-detail');
+        const auth = await isAuthenticated();
+
+        if (auth) {
+          window.location.href = detailUrl;
+        } else {
+          window.location.href = "login.html?from=home";
+        }
+      });
+    });
+  }
+
+  async function loadBrands() {
+  try {
+   const res = await fetch(`${BASE_URL}/public/brands`); 
+    const brands = await res.json();
+const brandList = document.getElementById('homeBrandList');
+    
+    brandList.innerHTML = '';
+
+    brands.forEach(brand => {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.innerHTML = `
+        <img src="${brand.logourl}" alt="${brand.name}" style="cursor: pointer;" />
+        <h4>${brand.name}</h4>
+      `;
+
+      // ✅ Add click handler
+      card.addEventListener('click', () => {
+        window.location.href = `brandproducts.html?brand=${encodeURIComponent(brand.name)}`;
+      });
+
+      brandList.appendChild(card);
+    });
+
+  } catch (err) {
+    console.error('Failed to load brands:', err);
+  }
+}
+
+
+  async function loadVehiclesByBrand(brandName) {
+  try {
+    const res = await fetch(`${BASE_URL}/public/by-brand-name/${encodeURIComponent(brandName)}`, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error("Error fetching brand products:", errText);
+      return window.location.href="login.html";
+    }
+
+    const vehicles = await res.json();
+    const vehicleList = document.getElementById('vehicleList');
+    vehicleList.innerHTML = ''; // Clear previous
+
+    if (vehicles.length === 0) {
+      vehicleList.innerHTML = '<p>No vehicles found for this brand.</p>';
+      return;
+    }
+
+    vehicles.forEach(vehicle => {
+  const card = document.createElement('div');
+  card.classList.add('card');
+  card.innerHTML = `
+    <div style="position: relative;">
+      <img src="${vehicle.imageUrl}" alt="${vehicle.title}" style="width: 100%; border-radius: 10px;" />
+      <span class="heart-icon" 
+            data-id="${vehicle._id}" 
+            style="position: absolute; top: 10px; right: 10px; font-size: 22px; cursor: pointer;">
+        🤍
+      </span>
+    </div>
+    <h4>${vehicle.title}</h4>
+    <p>Brand: ${vehicle.brand?.name || vehicle.brand}</p>
+    <p>Price: ₹${vehicle.price}</p>
+    <p>Year: ${vehicle.year}</p>
+    <p>Model: ${vehicle.model}</p>
+    <p>Mileage: ${vehicle.mileage}</p>
+    <p>Type: ${vehicle.BodyType}</p>
+    <p>Condition: ${vehicle.condition}</p>
+    <button class="add-to-cart-btn" style="
+      width: 100%;
+      padding: 10px;
+      background-color: #0d6efd;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    ">Add to Cart</button>
+  `;
+  vehicleList.appendChild(card);
+});
+
+
+  } catch (err) {
+    console.error('Failed to load brand vehicles:', err);
+  }
+}
+async function goToDashboard(event) {
+  event.preventDefault();
+
+  const isAuth = await isAuthenticated();
+
+  if (isAuth) {
+    window.location.href = 'profilePage.html';
+  } else {
+    alert("Please login first.");
+    window.location.href = 'login.html';
+  }
+}
+async function goToCart(event) {
+  event.preventDefault();
+
+  const isAuth = await isAuthenticated();
+
+  if (isAuth) {
+    window.location.href = 'cartPage.html';
+  } else {
+    alert("Please login first.");
+    window.location.href = 'login.html';
+  }
+}
+
+async function setupSellerDashboardButton() {
+  const btn = document.getElementById('seller-dashboard-btn');
+  const isAuth = await isAuthenticated();
+
+  if (!isAuth || !btn) {
+    if (btn) btn.style.display = 'none';
+    return;
+  }
+
+  await refreshAccessToken(); // ✅ Make sure token is refreshed
+ // make sure this function returns token from your refresh logic or memory
+  const decoded = parseJwt(accessToken);
+
+  const roles = decoded?.UserInfo?.roles || {};
+  const roleValues = Object.values(roles);
+
+  const hasSellerRole = roleValues.includes(1984); // assuming 3001 is the role value for Seller
+
+  if (hasSellerRole) {
+    btn.style.display = 'inline-block';
+    btn.addEventListener('click', () => {
+      window.location.href = 'seller.html';
+    });
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+async function searchVehicles() {
+  const query = {
+    vehicleType: document.getElementById("vehicleType").value,
+    brand: document.getElementById("brand").value,
+    model: document.getElementById("model").value,
+    year: document.getElementById("year").value,
+    mileage: document.getElementById("mileage").value,
+    price: document.getElementById("price").value,
+    condition: document.getElementById("condition").value,
+    BodyType: document.getElementById("bodyType").value,
+  };
+
+  // Remove "All" and empty filters
+  Object.keys(query).forEach(key => {
+    if (
+      query[key].startsWith("All") ||
+      query[key].trim() === ""
+    ) {
+      delete query[key];
+    }
+  });
+
+  // Save to sessionStorage
+  sessionStorage.setItem("vehicleSearchQuery", JSON.stringify(query));
+
+  // Redirect to search page
+  window.location.href = "searchvehicles.html";
+}
+
+
+  // Init on load
+window.addEventListener('DOMContentLoaded', async () => {
+  checkAuth();
+  await refreshAccessToken(); // ✅ Wait until accessToken is ready
+  handleVehicleChange();
+  setupCarDetailRedirects();
+  loadBrands();
+ setupSellerDashboardButton(); 
+          // ✅ Now the token is available
+});
+
+</script>
+
+</body>
+</html>
