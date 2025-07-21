@@ -1689,7 +1689,7 @@ async function goToDashboard(event) {
   const isAuth = await isAuthenticated();
 
   if (isAuth) {
-    window.location.href = './profilePage.html';
+    window.location.href = 'https://wheelwise-backend.onrender.com/profilePage.html';
   } else {
     alert("Please login first.");
     window.location.href = 'login.html';
