@@ -28,6 +28,7 @@ const handleNewUser=async (req,res)=>{
        res.status(201).json({'success':`new user created!`});
     }
     catch (err){
+        console.error('Registration Error:', err); 
         res.status(500).json({'message':err.message});
     }
 
