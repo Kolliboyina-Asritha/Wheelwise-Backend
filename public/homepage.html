@@ -1689,7 +1689,7 @@ async function goToDashboard(event) {
   const isAuth = await isAuthenticated();
 
   if (isAuth) {
-    window.location.href = 'profilePage.html';
+    window.location.href = './profilePage.html';
   } else {
     alert("Please login first.");
     window.location.href = 'login.html';
@@ -1701,10 +1701,10 @@ async function goToCart(event) {
   const isAuth = await isAuthenticated();
 
   if (isAuth) {
-    window.location.href = 'cartPage.html';
+    window.location.href = './cartPage.html';
   } else {
     alert("Please login first.");
-    window.location.href = 'login.html';
+    window.location.href = './login.html';
   }
 }
 
@@ -1729,7 +1729,7 @@ async function setupSellerDashboardButton() {
   if (hasSellerRole) {
     btn.style.display = 'inline-block';
     btn.addEventListener('click', () => {
-      window.location.href = 'seller.html';
+      window.location.href = './seller.html';
     });
   } else {
     btn.style.display = 'none';
@@ -1762,7 +1762,7 @@ async function searchVehicles() {
   sessionStorage.setItem("vehicleSearchQuery", JSON.stringify(query));
 
   // Redirect to search page
-  window.location.href = "searchvehicles.html";
+  window.location.href = "./searchvehicles.html";
 }
 
 
