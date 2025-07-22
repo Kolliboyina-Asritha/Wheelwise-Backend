@@ -463,7 +463,8 @@ async function fetchCartItems() {
     const res = await fetch(`${BASE_URL}/cart`, {
       headers: {
         'Authorization': `Bearer ${accessToken}`
-      }
+      },
+       credentials: 'include',
     });
 
     if (res.status === 401 || res.status === 403) {
@@ -520,7 +521,8 @@ async function removeFromCart(id) {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${accessToken}`
-      }
+      },
+       credentials: 'include',
     });
     fetchCartItems();
   } catch (err) {
@@ -531,7 +533,7 @@ async function removeFromCart(id) {
 // 🆕 View full card when cart item is clicked
 async function openFullVehicleCard(vehicleId) {
   try {
-    const res = await fetch(`${BASE_URL}/vehicles/${vehicleId}`);
+    const res = await fetch(`${BASE_URL}/vehicles/${vehicleId}`, { credentials: 'include'});
     if (!res.ok) throw new Error('Vehicle not found');
 
     const vehicle = await res.json();
