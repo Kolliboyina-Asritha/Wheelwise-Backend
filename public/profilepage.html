@@ -593,7 +593,8 @@ async function fetchFavourites() {
   try {
     const res = await fetch(`${BASE_URL}/buyer/favourites`, {
       headers: { 'Authorization': 'Bearer ' + accessToken }
-    });
+    },
+      credentials: 'include',);
     const data = await res.json();
     favouriteVehicleIds = data.map(v => v._id);
   } catch (err) {
@@ -615,7 +616,7 @@ function showWelcome() {
 
 function loadFavorites() {
   fetch(`${BASE_URL}/buyer/favourites`, {
-    headers: { 'Authorization': 'Bearer ' + accessToken }
+    headers: { 'Authorization': 'Bearer ' + accessToken }, credentials: 'include',
   })
     .then(res => res.json())
     .then(data => {
@@ -669,7 +670,7 @@ function loadFavorites() {
               method: 'DELETE',
               headers: {
                 'Authorization': 'Bearer ' + accessToken
-              }
+              }, credentials: 'include',
             });
             if (res.ok) {
               // Update UI
@@ -752,7 +753,7 @@ async function addToCart(vehicleId) {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`
-      },
+      }, credentials: 'include',
       body: JSON.stringify({ vehicleId })
     });
 
@@ -768,7 +769,7 @@ async function addToCart(vehicleId) {
 }
 function loadForm() {
   fetch(`${BASE_URL}/buyer/details`, {
-    headers: { 'Authorization': 'Bearer ' + accessToken }
+    headers: { 'Authorization': 'Bearer ' + accessToken }, credentials: 'include',
   })
     .then(res => res.json())
     .then(data => {
@@ -855,7 +856,7 @@ function renderForm(data) {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + accessToken
-        },
+        }, credentials: 'include',
         body: JSON.stringify(body)
       })
         .then(res => res.json())
@@ -877,7 +878,7 @@ async function loadPurchasedOrders() {
     const res = await fetch(`${BASE_URL}/orders/my-orders`, {
       headers: {
         'Authorization': `Bearer ${accessToken}`
-      }
+      }, credentials: 'include',
     });
 
     const orders = await res.json();
