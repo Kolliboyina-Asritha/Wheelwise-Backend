@@ -1591,7 +1591,7 @@
 
   async function loadBrands() {
   try {
-   const res = await fetch(`${BASE_URL}/public/brands`); 
+   const res = await fetch(`${BASE_URL}/public/brands`,{  credentials: 'include'}); 
     const brands = await res.json();
 const brandList = document.getElementById('homeBrandList');
     
@@ -1625,7 +1625,7 @@ const brandList = document.getElementById('homeBrandList');
       headers: {
         'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json'
-      }
+      },  credentials: 'include',
     });
 
     if (!res.ok) {
