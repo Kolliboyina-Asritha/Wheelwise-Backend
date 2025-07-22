@@ -575,6 +575,7 @@
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + accessToken
         },
+          credentials: 'include',
         body: JSON.stringify({
           buyer,
           items,
@@ -598,6 +599,7 @@
       const orderRes = await fetch(`${BASE_URL}/payments/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
         body: JSON.stringify({ amount: totalAmount * 100 })
       });
       const orderData = await orderRes.json();
@@ -615,7 +617,7 @@
             headers: {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer ' + accessToken
-            },
+            },  credentials: 'include',
             body: JSON.stringify({
               buyer,
               items,
@@ -683,7 +685,7 @@
     async function loadCheckoutPage() {
       const cartRes = await fetch(`${BASE_URL}/cart`, {
         headers: { 'Authorization': 'Bearer ' + accessToken }
-      });
+      },  credentials: 'include',);
       const cartItems = await cartRes.json();
 
       if (!cartItems.length) {
