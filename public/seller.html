@@ -490,7 +490,7 @@ document.getElementById("addBrandForm").addEventListener("submit", async functio
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${accessToken}`
-      },
+      }, credentials: 'include',
       body: JSON.stringify({ name, logourl })
     });
 
@@ -514,7 +514,7 @@ async function loadBrands() {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json'
-      }
+      }, credentials: 'include',
     });
 
     const brands = await res.json();
@@ -559,7 +559,7 @@ function editBrand(id, currentName, currentLogo) {
     headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${accessToken}`
-    },
+    }, credentials: 'include',
     body: JSON.stringify({ name: newName, logourl: newLogo })
   })
   .then(res => res.json())
@@ -583,7 +583,7 @@ async function deleteBrand(id) {
       method: "DELETE",
       headers: {
         "Authorization": `Bearer ${accessToken}`
-      }
+      }, credentials: 'include',
     });
     const data = await res.json();
     alert(data.message || "Brand deleted.");
@@ -618,7 +618,7 @@ document.getElementById("addVehicleForm").addEventListener("submit", async funct
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${accessToken}`
-      },
+      }, credentials: 'include',
       body: JSON.stringify(vehicle)
     });
 
@@ -642,7 +642,7 @@ async function loadVehicles() {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json'
-      }
+      }, credentials: 'include',
     });
 
     const vehicles = await res.json();
@@ -731,7 +731,7 @@ function editVehicle(vehicle) {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`
-    },
+    }, credentials: 'include',
     body: JSON.stringify(updatedData)
   })
   .then(res => res.json())
@@ -749,7 +749,7 @@ async function loadOrders() {
     const res = await fetch(`${BASE_URL}/orders/seller`, {
       headers: {
         'Authorization': `Bearer ${accessToken}`
-      }
+      }, credentials: 'include',
     });
     const orders = await res.json();
 
@@ -799,7 +799,7 @@ async function updateStatus(orderId, status) {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + accessToken
-      },
+      }, credentials: 'include',
       body: JSON.stringify({ status })
     });
     if (res.ok) {
