@@ -636,7 +636,7 @@
       try {
         const res = await fetch(`${BASE_URL}/register`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json' }, credentials: 'include',
           body: JSON.stringify({ firstname, lastname, email, mobileno, pwd })
         });
 
@@ -660,7 +660,7 @@
       try {
         const res = await fetch(`${BASE_URL}/auth/google`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json' }, credentials: 'include',
           body: JSON.stringify({ token: idToken })
         });
 
