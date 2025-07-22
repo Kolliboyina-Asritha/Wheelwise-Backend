@@ -542,7 +542,8 @@
     if (!accessToken) return;
     try {
       const res = await fetch(`${BASE_URL}/buyer/favourites`, {
-        headers: { 'Authorization': 'Bearer ' + accessToken }
+        headers: { 'Authorization': 'Bearer ' + accessToken },
+        credentials: 'include',
       });
       const data = await res.json();
       favouriteVehicleIds = data.map(f => f._id); // Vehicle IDs
@@ -562,7 +563,7 @@
         headers: {
           'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json'
-        }
+        },  credentials: 'include', 
       });
 
       if (res.status === 401) {
@@ -630,7 +631,8 @@
                 method: 'DELETE',
                 headers: {
                   'Authorization': `Bearer ${accessToken}`
-                }
+                },
+                 credentials: 'include',
               });
 
               if (res.ok) {
@@ -649,7 +651,7 @@
                 headers: {
                   'Content-Type': 'application/json',
                   'Authorization': `Bearer ${accessToken}`
-                },
+                }, credentials: 'include',
                 body: JSON.stringify({ vehicleId })
               });
 
@@ -681,6 +683,7 @@
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`
       },
+       credentials: 'include',
       body: JSON.stringify({ vehicleId })
     });
 
