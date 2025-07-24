@@ -23,13 +23,17 @@ exports.getFavourites = async (req, res) => {
   const email = req.user;
 
   try {
-    // In your /buyer/favourites controller
- const favs = await Favourite.find({ email }).populate('vehicle');
-    res.json(favs.map(f => f.vehicle));
+    const favs = await Favourite.find({ email }).populate('vehicle');
+
+    // Filter out null vehicles (deleted products)
+    const validFavourites = favs.filter(f => f.vehicle);
+
+    res.json(validFavourites.map(f => f.vehicle));
   } catch (err) {
     res.status(500).json({ message: 'Error fetching favourites' });
   }
 };
+
 exports.removeFavourite = async (req, res) => {
   const email = req.user;
   const vehicleId = req.params.vehicleId;
