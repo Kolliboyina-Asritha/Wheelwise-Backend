@@ -11,9 +11,17 @@ const connectDB=require('./config/dbconn');
 const credentials=require('./middleware/credentials');
 const cookieParser=require('cookie-parser');
 const PORT=process.env.PORT||6006;
+app.use((req, res, next) => {
+    console.log(`🌐 Request: ${req.method} ${req.url}`);
+    next();
+});
 connectDB();
 app.use(credentials);
 app.use(cors(corsOptions));
+app.options('*', (req, res) => {
+    console.log(`🔵 OPTIONS Preflight Caught: ${req.method} ${req.url}`);
+    res.sendStatus(204); // No Content
+});
 app.use(express.urlencoded({ extended:false }));
 app.use(express.json());
 app.use(cookieParser());
