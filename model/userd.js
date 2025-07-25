@@ -15,21 +15,27 @@ const userdSchema=new Schema({
     required:true,
     unique:true
  },
- mobileno:{
-    type:Number,
-    required:true,
-    unique:true
- },
+mobileno: {
+    type: Number,
+    required: function() {
+      return !this.isGoogleUser;
+    },
+    unique: function() {
+      return !this.isGoogleUser; // Unique only if not Google user
+    }
+  },
   isGoogleUser: { type: Boolean, default: false },
  roles:{
     User:{type:Number,default:2001},
     Seller:Number,
     Admin:Number
  },
- password:{
-    type:String,
-    required:true
- },
+  password: {
+    type: String,
+    required: function() {
+      return !this.isGoogleUser;
+    }
+  },
  refreshToken:String
 
 });
