@@ -37,7 +37,7 @@ app.use('/refresh',require('./routes/api/refresh'));
 app.use('/logout',require('./routes/api/logout'));
 app.use('/seller',require('./routes/api/brands'));
 app.use('/seller/products', require('./routes/api/products'));
-app.use('/',require('./routes/api/password'));
+app.use('/password',require('./routes/api/password'));
 
 app.use('/public',require('./routes/public/brands'));
 app.use('/buyer',require('./routes/api/buyerRoutes'));
