@@ -1,42 +1,41 @@
-const mongoose=require('mongoose');
-const { Schema } = mongoose; // ✅ Add this line
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const userdSchema=new Schema({
- firstname:{
-    type:String,
-    required:true
- },
- lastname:{
-    type:String,
-    required:true
- },
- email:{
-    type:String,
-    required:true,
-    unique:true
- },
-mobileno: {
+const userdSchema = new Schema({
+  firstname: {
+    type: String,
+    required: true
+  },
+  lastname: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  mobileno: {
     type: Number,
     required: function() {
       return !this.isGoogleUser;
     },
-    unique: function() {
-      return !this.isGoogleUser; // Unique only if not Google user
-    }
+    unique: true,
+    sparse: true // 🔥 KEY PART: allows multiple nulls
   },
   isGoogleUser: { type: Boolean, default: false },
- roles:{
-    User:{type:Number,default:2001},
-    Seller:Number,
-    Admin:Number
- },
+  roles: {
+    User: { type: Number, default: 2001 },
+    Seller: Number,
+    Admin: Number
+  },
   password: {
     type: String,
     required: function() {
       return !this.isGoogleUser;
     }
   },
- refreshToken:String
-
+  refreshToken: String
 });
-module.exports=mongoose.model('Userd',userdSchema);
+
+module.exports = mongoose.model('Userd', userdSchema);
